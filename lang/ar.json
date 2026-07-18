@@ -315,5 +315,26 @@
     "Course subscriptions are not open yet.": "اشتراكات الدورات غير متاحة بعد.",
     "Create an account": "أنشئ حسابًا",
     "to be ready when they are.": "لتكون جاهزًا عند إتاحتها.",
-    "No published courses yet.": "لا توجد دورات منشورة بعد."
+    "No published courses yet.": "لا توجد دورات منشورة بعد.",
+
+    "Curriculum": "المنهج",
+    "Delete this section and all its lessons?": "هل تريد حذف هذا القسم وجميع دروسه؟",
+    "Video": "فيديو",
+    "Reading": "قراءة",
+    "Video uploaded": "تم رفع الفيديو",
+    "Manage": "إدارة",
+    "Close": "إغلاق",
+    "Delete this lesson?": "هل تريد حذف هذا الدرس؟",
+    "Uploaded. Upload a new file below to replace it.": "تم الرفع. ارفع ملفًا جديدًا أدناه لاستبداله.",
+    "Upload Video": "رفع الفيديو",
+    "Uploading...": "جارٍ الرفع...",
+    "Downloadable Resources": "مرفقات قابلة للتحميل",
+    "No resources yet.": "لا توجد مرفقات بعد.",
+    "Remove this resource?": "هل تريد إزالة هذا المرفق؟",
+    "Remove": "إزالة",
+    "Upload": "رفع",
+    "Lesson title": "عنوان الدرس",
+    "Add Lesson": "إضافة درس",
+    "Add Section": "إضافة قسم",
+    "Section title, e.g. Week 1": "عنوان القسم، مثال: الأسبوع الأول"
 }

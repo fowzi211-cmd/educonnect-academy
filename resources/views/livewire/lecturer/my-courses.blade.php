@@ -30,7 +30,10 @@
                                 <td class="px-4 py-3">
                                     <x-course-status-badge :status="$course->status" />
                                 </td>
-                                <td class="px-4 py-3 text-end">
+                                <td class="px-4 py-3 text-end space-x-3 rtl:space-x-reverse">
+                                    <a href="{{ route('lecturer.courses.curriculum', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-800 underline">
+                                        {{ __('Curriculum') }}
+                                    </a>
                                     <a href="{{ route('lecturer.courses.edit', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-800 underline">
                                         {{ __('Edit') }}
                                     </a>
