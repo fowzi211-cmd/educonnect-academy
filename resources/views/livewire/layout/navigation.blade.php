@@ -46,6 +46,12 @@ new class extends Component
                         </x-nav-link>
                     @endcan
 
+                    @can('review courses')
+                        <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*')" wire:navigate>
+                            {{ __('Course Reviews') }}
+                        </x-nav-link>
+                    @endcan
+
                     @can('manage lecturer applications')
                         <x-nav-link :href="route('admin.lecturer-applications.index')" :active="request()->routeIs('admin.lecturer-applications.*')" wire:navigate>
                             {{ __('Lecturer Applications') }}
@@ -126,6 +132,12 @@ new class extends Component
             @can('manage own courses')
                 <x-responsive-nav-link :href="route('lecturer.courses.index')" :active="request()->routeIs('lecturer.courses.*')" wire:navigate>
                     {{ __('My Courses') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('review courses')
+                <x-responsive-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*')" wire:navigate>
+                    {{ __('Course Reviews') }}
                 </x-responsive-nav-link>
             @endcan
 

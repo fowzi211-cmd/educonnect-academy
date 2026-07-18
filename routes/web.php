@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\LecturerDocumentController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PublicPageController;
 use App\Livewire\Admin\Categories as AdminCategories;
+use App\Livewire\Admin\CourseReview;
+use App\Livewire\Admin\CourseReviewQueue;
 use App\Livewire\Admin\LecturerApplicationReview;
 use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
@@ -61,6 +63,11 @@ Route::middleware(['auth', 'verified'])
             Route::get('lecturer-applications', LecturerApplications::class)->name('lecturer-applications.index');
             Route::get('lecturer-applications/{lecturerProfile}', LecturerApplicationReview::class)->name('lecturer-applications.show');
             Route::get('lecturer-documents/{lecturerDocument}/download', [LecturerDocumentController::class, 'download'])->name('lecturer-documents.download');
+        });
+
+        Route::middleware('permission:review courses')->group(function () {
+            Route::get('courses', CourseReviewQueue::class)->name('courses.index');
+            Route::get('courses/{course}', CourseReview::class)->name('courses.show');
         });
     });
 
