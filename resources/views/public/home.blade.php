@@ -15,6 +15,9 @@
                 <a href="{{ route('how-it-works') }}" wire:navigate class="rounded-md px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/40 hover:bg-white/10">
                     {{ __('How It Works') }}
                 </a>
+                <a href="{{ route('courses.index') }}" wire:navigate class="rounded-md px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/40 hover:bg-white/10">
+                    {{ __('Browse Courses') }}
+                </a>
             </div>
         </div>
     </section>

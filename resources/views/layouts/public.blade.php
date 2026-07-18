@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title ? $title.' - ' : '' }}{{ \App\Models\Setting::get('branding.platform_name', config('app.name')) }}</title>
-        @if ($description)
+        <title>{{ ($title ?? null) ? $title.' - ' : '' }}{{ \App\Models\Setting::get('branding.platform_name', config('app.name')) }}</title>
+        @if ($description ?? null)
             <meta name="description" content="{{ $description }}">
         @endif
 
@@ -35,6 +35,8 @@
 
                         <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
                             <a href="{{ route('home') }}" wire:navigate class="hover:text-gray-900 {{ request()->routeIs('home') ? 'text-gray-900' : '' }}">{{ __('Home') }}</a>
+                            <a href="{{ route('courses.index') }}" wire:navigate class="hover:text-gray-900 {{ request()->routeIs('courses.*') ? 'text-gray-900' : '' }}">{{ __('Courses') }}</a>
+                            <a href="{{ route('lecturers.index') }}" wire:navigate class="hover:text-gray-900 {{ request()->routeIs('lecturers.*') ? 'text-gray-900' : '' }}">{{ __('Lecturers') }}</a>
                             <a href="{{ route('about') }}" wire:navigate class="hover:text-gray-900 {{ request()->routeIs('about') ? 'text-gray-900' : '' }}">{{ __('About') }}</a>
                             <a href="{{ route('how-it-works') }}" wire:navigate class="hover:text-gray-900 {{ request()->routeIs('how-it-works') ? 'text-gray-900' : '' }}">{{ __('How It Works') }}</a>
                             <a href="{{ route('faq') }}" wire:navigate class="hover:text-gray-900 {{ request()->routeIs('faq') ? 'text-gray-900' : '' }}">{{ __('FAQ') }}</a>

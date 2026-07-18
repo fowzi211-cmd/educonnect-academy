@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\LecturerDocumentController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PublicCourseController;
 use App\Http\Controllers\PublicPageController;
 use App\Livewire\Admin\Categories as AdminCategories;
 use App\Livewire\Admin\CourseReview;
@@ -9,9 +10,11 @@ use App\Livewire\Admin\CourseReviewQueue;
 use App\Livewire\Admin\LecturerApplicationReview;
 use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
+use App\Livewire\CourseCatalogue;
 use App\Livewire\LecturerApplicationForm;
 use App\Livewire\Lecturer\CourseForm;
 use App\Livewire\Lecturer\MyCourses;
+use App\Livewire\LecturerDirectory;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('home');
@@ -23,6 +26,11 @@ Route::get('terms', [PublicPageController::class, 'terms'])->name('terms');
 Route::get('privacy', [PublicPageController::class, 'privacy'])->name('privacy');
 Route::get('refund-policy', [PublicPageController::class, 'refundPolicy'])->name('refund-policy');
 Route::get('cookie-policy', [PublicPageController::class, 'cookiePolicy'])->name('cookie-policy');
+
+Route::get('courses', CourseCatalogue::class)->name('courses.index');
+Route::get('courses/{slug}', [PublicCourseController::class, 'show'])->name('courses.show');
+Route::get('lecturers', LecturerDirectory::class)->name('lecturers.index');
+Route::get('lecturers/{user}', [PublicCourseController::class, 'lecturerProfile'])->name('lecturers.show');
 
 Route::get('locale/{locale}', LocaleController::class)->name('locale.update');
 
