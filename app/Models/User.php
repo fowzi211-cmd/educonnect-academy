@@ -55,4 +55,17 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot('is_primary')
             ->withTimestamps();
     }
+
+    public function enrolments(): HasMany
+    {
+        return $this->hasMany(Enrolment::class);
+    }
+
+    public function enrolledCourses(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'enrolments')
+            ->wherePivot('status', Enrolment::STATUS_ACTIVE)
+            ->withPivot(['status', 'source', 'enrolled_at', 'ends_at'])
+            ->withTimestamps();
+    }
 }

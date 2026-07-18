@@ -31,4 +31,18 @@ return [
 
     'policy_version' => '1.0',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Live Class Link Release
+    |--------------------------------------------------------------------------
+    |
+    | How many minutes before a live class starts the student join link
+    | becomes visible (spec section 9: "Release the student meeting link
+    | only shortly before the class"). The lecturer host link is never
+    | exposed to students at all.
+    |
+    */
+
+    'live_class_link_release_minutes' => env('LIVE_CLASS_LINK_RELEASE_MINUTES', 15),
+
 ];

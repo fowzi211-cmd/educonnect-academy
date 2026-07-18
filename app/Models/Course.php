@@ -113,6 +113,21 @@ class Course extends Model
         return $this->hasMany(CourseReviewer::class);
     }
 
+    public function sections(): HasMany
+    {
+        return $this->hasMany(CourseSection::class)->orderBy('position');
+    }
+
+    public function liveClasses(): HasMany
+    {
+        return $this->hasMany(LiveClass::class);
+    }
+
+    public function enrolments(): HasMany
+    {
+        return $this->hasMany(Enrolment::class);
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_PUBLISHED);
@@ -126,5 +141,30 @@ class Course extends Model
 
         return $this->created_by === $user->id
             && in_array($this->status, [self::STATUS_DRAFT, self::STATUS_REVISION_REQUESTED], true);
+    }
+
+    /**
+     * Whether the user teaches this course (creator or co-lecturer) — used to
+     * gate curriculum management, distinct from isEditableBy's status-aware check.
+     */
+    public function isTaughtBy(User $user): bool
+    {
+        return $this->created_by === $user->id || $this->lecturers()->where('users.id', $user->id)->exists();
+    }
+
+    /**
+     * Whether the user currently has classroom access to this course:
+     * an active enrolment, or being one of its lecturers/admins.
+     */
+    public function isAccessibleBy(User $user): bool
+    {
+        if ($this->isTaughtBy($user) || $user->can('publish courses')) {
+            return true;
+        }
+
+        return $this->enrolments()
+            ->where('user_id', $user->id)
+            ->where('status', Enrolment::STATUS_ACTIVE)
+            ->exists();
     }
 }
