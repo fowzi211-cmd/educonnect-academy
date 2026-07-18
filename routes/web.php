@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LecturerDocumentController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PublicPageController;
+use App\Livewire\Admin\Categories as AdminCategories;
 use App\Livewire\Admin\LecturerApplicationReview;
 use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
@@ -40,6 +41,10 @@ Route::middleware(['auth', 'verified'])
         Route::get('settings', AdminSettings::class)
             ->middleware('permission:manage settings')
             ->name('settings');
+
+        Route::get('categories', AdminCategories::class)
+            ->middleware('permission:manage categories')
+            ->name('categories');
 
         Route::middleware('permission:manage lecturer applications')->group(function () {
             Route::get('lecturer-applications', LecturerApplications::class)->name('lecturer-applications.index');

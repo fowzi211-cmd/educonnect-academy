@@ -210,5 +210,19 @@
     "Explain what is missing or needs revision.": "وضّح ما هو ناقص أو يحتاج إلى تعديل.",
     "Reject this lecturer application?": "هل تريد رفض طلب المحاضر هذا؟",
     "Reject": "رفض",
-    "Back to applications": "العودة إلى الطلبات"
+    "Back to applications": "العودة إلى الطلبات",
+
+    "Categories": "التصنيفات",
+    "Course Categories": "تصنيفات الدورات",
+    "Add Category": "إضافة تصنيف",
+    "Category name": "اسم التصنيف",
+    "Description (optional)": "الوصف (اختياري)",
+    "Add": "إضافة",
+    "Courses": "الدورات",
+    "Active": "نشط",
+    "Inactive": "غير نشط",
+    "Edit": "تعديل",
+    "Delete": "حذف",
+    "Delete this category?": "هل تريد حذف هذا التصنيف؟",
+    "This category has courses assigned and cannot be deleted. Deactivate it instead.": "يحتوي هذا التصنيف على دورات مرتبطة به ولا يمكن حذفه. يمكنك إلغاء تفعيله بدلاً من ذلك."
 }
