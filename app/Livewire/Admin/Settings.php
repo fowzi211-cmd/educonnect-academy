@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\AuditLog;
 use App\Models\Setting;
+use App\Services\Payments\PaymentGatewayManager;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -28,6 +29,9 @@ class Settings extends Component
 
     public bool $saved = false;
 
+    public string $payment_gateway = 'test';
+    public bool $paymentGatewaySaved = false;
+
     public function mount(): void
     {
         $this->platform_name = Setting::get('branding.platform_name', config('app.name'));
@@ -39,6 +43,7 @@ class Settings extends Component
         $this->default_currency = Setting::get('branding.default_currency', config('platform.default_currency'));
         $this->timezone = Setting::get('branding.timezone', config('app.timezone'));
         $this->current_logo_path = Setting::get('branding.logo_path');
+        $this->payment_gateway = Setting::get('payment.default_gateway', config('services.payment.default_gateway', 'test'));
     }
 
     public function save(): void
@@ -87,8 +92,31 @@ class Settings extends Component
         $this->saved = true;
     }
 
+    public function savePaymentGateway(PaymentGatewayManager $gateways): void
+    {
+        $validated = $this->validate([
+            'payment_gateway' => ['required', 'string', 'in:'.implode(',', $gateways->availableDrivers())],
+        ]);
+
+        if ($validated['payment_gateway'] === 'stripe' && ! config('services.stripe.secret')) {
+            $this->addError('payment_gateway', __('Stripe is not configured yet — set STRIPE_KEY and STRIPE_SECRET in the environment first.'));
+
+            return;
+        }
+
+        $old = ['payment_gateway' => Setting::get('payment.default_gateway')];
+
+        Setting::set('payment.default_gateway', $validated['payment_gateway'], 'payment');
+
+        AuditLog::record('settings.payment_gateway.updated', old: $old, new: $validated);
+
+        $this->paymentGatewaySaved = true;
+    }
+
     public function render()
     {
-        return view('livewire.admin.settings');
+        return view('livewire.admin.settings', [
+            'availableGateways' => app(PaymentGatewayManager::class)->availableDrivers(),
+        ]);
     }
 }

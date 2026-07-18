@@ -31,5 +31,10 @@ class SettingSeeder extends Seeder
                 ['group' => 'branding', 'value' => $setting['value'], 'type' => $setting['type']]
             );
         }
+
+        Setting::query()->firstOrCreate(
+            ['key' => 'payment.default_gateway'],
+            ['group' => 'payment', 'value' => config('services.payment.default_gateway', 'test'), 'type' => 'string']
+        );
     }
 }

@@ -82,5 +82,37 @@
                 </div>
             </form>
         </div>
+
+        <div class="bg-white shadow sm:rounded-lg p-6 mt-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-1">{{ __('Payment Gateway') }}</h2>
+            <p class="text-sm text-gray-600 mb-6">{{ __('Choose which payment provider handles course subscriptions. Switching takes effect immediately for new checkouts.') }}</p>
+
+            @if ($paymentGatewaySaved)
+                <div class="mb-4 rounded-md bg-green-50 px-4 py-3 text-sm text-green-700">
+                    {{ __('Payment gateway updated.') }}
+                </div>
+            @endif
+
+            <form wire:submit="savePaymentGateway" class="space-y-4">
+                <div>
+                    <x-input-label for="payment_gateway" :value="__('Active Gateway')" />
+                    <select wire:model="payment_gateway" id="payment_gateway" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
+                        @foreach ($availableGateways as $driver)
+                            <option value="{{ $driver }}">
+                                {{ $driver === 'test' ? __('Sandbox (no external account needed)') : __('Stripe') }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('payment_gateway')" class="mt-2" />
+                    <p class="text-xs text-gray-500 mt-2">
+                        {{ __('Stripe requires STRIPE_KEY and STRIPE_SECRET to be set in the environment before it can be selected.') }}
+                    </p>
+                </div>
+
+                <div class="flex justify-end">
+                    <x-primary-button>{{ __('Save') }}</x-primary-button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

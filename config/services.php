@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+    ],
+
+    'payment' => [
+        // Which PaymentGatewayManager driver is active when no admin-configured
+        // Setting overrides it. Switch to "stripe" once STRIPE_KEY/STRIPE_SECRET
+        // are set — no code changes needed either way.
+        'default_gateway' => env('PAYMENT_GATEWAY', 'test'),
+    ],
+
 ];
