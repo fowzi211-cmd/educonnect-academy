@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             SettingSeeder::class,
         ]);
+
+        if (app()->environment('local', 'testing')) {
+            $this->call(DemoUserSeeder::class);
+        }
     }
 }

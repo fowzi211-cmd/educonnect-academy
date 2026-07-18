@@ -159,5 +159,19 @@
     "Optional Cookies": "ملفات تعريف الارتباط الاختيارية",
     "As features such as analytics are added, any optional cookies will be listed here along with a way to opt out, in line with our": "عند إضافة ميزات مثل التحليلات، ستُدرج أي ملفات تعريف ارتباط اختيارية هنا مع طريقة لإلغاء الاشتراك، بما يتوافق مع",
     "Managing Cookies": "إدارة ملفات تعريف الارتباط",
-    "Most browsers let you block or delete cookies in their settings. Blocking essential cookies will prevent you from staying signed in.": "تتيح لك معظم المتصفحات حظر أو حذف ملفات تعريف الارتباط من الإعدادات. حظر الملفات الأساسية سيمنعك من البقاء مسجلاً للدخول."
+    "Most browsers let you block or delete cookies in their settings. Blocking essential cookies will prevent you from staying signed in.": "تتيح لك معظم المتصفحات حظر أو حذف ملفات تعريف الارتباط من الإعدادات. حظر الملفات الأساسية سيمنعك من البقاء مسجلاً للدخول.",
+
+    "Super Administrator": "المشرف العام",
+    "Administrator": "مشرف",
+    "Finance Officer": "مسؤول مالي",
+    "Support Officer": "مسؤول الدعم",
+    "Course Reviewer": "مراجع الدورات",
+    "Lecturer": "محاضر",
+    "Student": "طالب",
+    "Welcome, :name.": "مرحبًا، :name.",
+    "Your role(s):": "دورك (أدوارك):",
+    "What you can do right now": "ما يمكنك فعله الآن",
+    "EduConnect Academy is being built in phases. Course delivery, payments, assessments, and reporting are not available yet — this dashboard will grow with each phase.": "يجري بناء إيديوكونكت أكاديمي على مراحل. تقديم الدورات والمدفوعات والتقييمات والتقارير غير متاحة بعد — ستنمو هذه اللوحة مع كل مرحلة.",
+    "Manage your profile": "إدارة ملفك الشخصي",
+    "Manage platform branding and settings": "إدارة هوية المنصة وإعداداتها"
 }
