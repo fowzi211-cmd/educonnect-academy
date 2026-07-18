@@ -68,4 +68,19 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot(['status', 'source', 'enrolled_at', 'ends_at'])
             ->withTimestamps();
     }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }
