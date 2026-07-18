@@ -34,6 +34,18 @@ new class extends Component
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
+                        <x-nav-link :href="route('lecturer-application')" :active="request()->routeIs('lecturer-application')" wire:navigate>
+                            {{ __('Become a Lecturer') }}
+                        </x-nav-link>
+                    @endif
+
+                    @can('manage lecturer applications')
+                        <x-nav-link :href="route('admin.lecturer-applications.index')" :active="request()->routeIs('admin.lecturer-applications.*')" wire:navigate>
+                            {{ __('Lecturer Applications') }}
+                        </x-nav-link>
+                    @endcan
+
                     @can('manage settings')
                         <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')" wire:navigate>
                             {{ __('Settings') }}
@@ -92,6 +104,18 @@ new class extends Component
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
+                <x-responsive-nav-link :href="route('lecturer-application')" :active="request()->routeIs('lecturer-application')" wire:navigate>
+                    {{ __('Become a Lecturer') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @can('manage lecturer applications')
+                <x-responsive-nav-link :href="route('admin.lecturer-applications.index')" :active="request()->routeIs('admin.lecturer-applications.*')" wire:navigate>
+                    {{ __('Lecturer Applications') }}
+                </x-responsive-nav-link>
+            @endcan
 
             @can('manage settings')
                 <x-responsive-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')" wire:navigate>

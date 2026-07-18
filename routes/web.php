@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\LecturerDocumentController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PublicPageController;
+use App\Livewire\Admin\LecturerApplicationReview;
+use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
+use App\Livewire\LecturerApplicationForm;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('home');
@@ -25,11 +29,23 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::middleware(['auth', 'verified', 'permission:manage settings'])
+Route::get('lecturer-application', LecturerApplicationForm::class)
+    ->middleware(['auth', 'verified'])
+    ->name('lecturer-application');
+
+Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::get('settings', AdminSettings::class)->name('settings');
+        Route::get('settings', AdminSettings::class)
+            ->middleware('permission:manage settings')
+            ->name('settings');
+
+        Route::middleware('permission:manage lecturer applications')->group(function () {
+            Route::get('lecturer-applications', LecturerApplications::class)->name('lecturer-applications.index');
+            Route::get('lecturer-applications/{lecturerProfile}', LecturerApplicationReview::class)->name('lecturer-applications.show');
+            Route::get('lecturer-documents/{lecturerDocument}/download', [LecturerDocumentController::class, 'download'])->name('lecturer-documents.download');
+        });
     });
 
 require __DIR__.'/auth.php';

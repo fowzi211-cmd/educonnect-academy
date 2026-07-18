@@ -23,14 +23,19 @@ class RoleSeeder extends Seeder
     ];
 
     /**
-     * Permissions needed by the features built so far (auth, users, settings).
-     * More are added as later phases introduce courses, payments, etc.
+     * Permissions needed by the features built so far.
+     * More are added as later phases introduce payments, assessments, etc.
      */
     public const PERMISSIONS = [
         'access admin panel',
         'manage users',
         'manage roles',
         'manage settings',
+        'manage lecturer applications',
+        'manage categories',
+        'manage own courses',
+        'review courses',
+        'publish courses',
     ];
 
     public function run(): void
@@ -43,10 +48,22 @@ class RoleSeeder extends Seeder
             Role::firstOrCreate(['name' => $role, 'guard_name' => 'web']);
         }
 
+        Role::findByName('lecturer')->givePermissionTo([
+            'manage own courses',
+        ]);
+
+        Role::findByName('course_reviewer')->givePermissionTo([
+            'review courses',
+        ]);
+
         Role::findByName('administrator')->givePermissionTo([
             'access admin panel',
             'manage users',
             'manage settings',
+            'manage lecturer applications',
+            'manage categories',
+            'review courses',
+            'publish courses',
         ]);
 
         Role::findByName('super_administrator')->givePermissionTo(self::PERMISSIONS);
