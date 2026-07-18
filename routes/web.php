@@ -8,6 +8,8 @@ use App\Livewire\Admin\LecturerApplicationReview;
 use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
 use App\Livewire\LecturerApplicationForm;
+use App\Livewire\Lecturer\CourseForm;
+use App\Livewire\Lecturer\MyCourses;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('home');
@@ -33,6 +35,15 @@ Route::view('profile', 'profile')
 Route::get('lecturer-application', LecturerApplicationForm::class)
     ->middleware(['auth', 'verified'])
     ->name('lecturer-application');
+
+Route::middleware(['auth', 'verified', 'permission:manage own courses'])
+    ->prefix('lecturer')
+    ->name('lecturer.')
+    ->group(function () {
+        Route::get('courses', MyCourses::class)->name('courses.index');
+        Route::get('courses/create', CourseForm::class)->name('courses.create');
+        Route::get('courses/{course}/edit', CourseForm::class)->name('courses.edit');
+    });
 
 Route::middleware(['auth', 'verified'])
     ->prefix('admin')
