@@ -167,4 +167,31 @@ class Course extends Model
             ->where('status', Enrolment::STATUS_ACTIVE)
             ->exists();
     }
+
+    /**
+     * Percentage (0-100) of this course's video lessons the given user has
+     * completed. Reading lessons aren't counted — there's no completion
+     * signal for them yet. Courses with no video lessons return null.
+     */
+    public function videoProgressPercentFor(User $user): ?int
+    {
+        $videoIds = $this->sections()
+            ->with('lessons.video')
+            ->get()
+            ->flatMap->lessons
+            ->pluck('video')
+            ->filter()
+            ->pluck('id');
+
+        if ($videoIds->isEmpty()) {
+            return null;
+        }
+
+        $completed = VideoProgress::where('user_id', $user->id)
+            ->whereIn('recorded_video_id', $videoIds)
+            ->whereNotNull('completed_at')
+            ->count();
+
+        return (int) round(($completed / $videoIds->count()) * 100);
+    }
 }

@@ -110,6 +110,7 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-end space-x-2 rtl:space-x-reverse">
+                                    <a href="{{ route('lecturer.live-classes.attendance', $liveClass) }}" wire:navigate class="text-indigo-600 hover:text-indigo-800 underline">{{ __('Attendance') }}</a>
                                     @if ($liveClass->status === 'scheduled')
                                         <button wire:click="edit({{ $liveClass->id }})" class="text-indigo-600 hover:text-indigo-800 underline">{{ __('Edit') }}</button>
                                         <button wire:click="startCancel({{ $liveClass->id }})" class="text-red-600 hover:text-red-800 underline">{{ __('Cancel') }}</button>

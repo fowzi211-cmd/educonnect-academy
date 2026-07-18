@@ -388,5 +388,9 @@
     "Present": "حاضر",
     "Absent": "غائب",
     "Excused": "معذور",
-    "No live classes yet.": "لا توجد حصص مباشرة بعد."
+    "No live classes yet.": "لا توجد حصص مباشرة بعد.",
+
+    "Progress": "التقدم",
+    "Mark": "التسجيل",
+    "No enrolled students yet.": "لا يوجد طلاب مسجلون بعد."
 }

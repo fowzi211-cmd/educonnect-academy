@@ -79,6 +79,7 @@ class Classroom extends Component
             'selectedVideoProgress' => $selectedLesson?->video ? $this->videoProgressFor($selectedLesson->video->id) : null,
             'liveClasses' => $this->course->liveClasses()->orderBy('starts_at')->get(),
             'attendance' => $attendance,
+            'courseProgress' => $this->course->videoProgressPercentFor(Auth::user()),
         ]);
     }
 }

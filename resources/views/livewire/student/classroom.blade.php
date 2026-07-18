@@ -8,6 +8,12 @@
     <div class="py-12">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
+            @if ($courseProgress !== null)
+                <div class="mb-6 max-w-xs">
+                    <x-progress-bar :percent="$courseProgress" />
+                </div>
+            @endif
+
             <div class="flex gap-4 border-b border-gray-200 mb-6 text-sm font-medium">
                 <button wire:click="$set('activeTab', 'content')" class="px-3 py-2 border-b-2 {{ $activeTab === 'content' ? 'border-gray-900 text-gray-900' : 'border-transparent text-gray-500' }}">
                     {{ __('Course Content') }}

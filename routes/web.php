@@ -15,6 +15,7 @@ use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
 use App\Livewire\CourseCatalogue;
 use App\Livewire\LecturerApplicationForm;
+use App\Livewire\Lecturer\Attendance as LecturerAttendance;
 use App\Livewire\Lecturer\CourseForm;
 use App\Livewire\Lecturer\CurriculumBuilder;
 use App\Livewire\Lecturer\LiveClasses as LecturerLiveClasses;
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'verified', 'permission:manage own courses'])
         Route::get('courses/{course}/edit', CourseForm::class)->name('courses.edit');
         Route::get('courses/{course}/curriculum', CurriculumBuilder::class)->name('courses.curriculum');
         Route::get('courses/{course}/live-classes', LecturerLiveClasses::class)->name('courses.live-classes');
+        Route::get('live-classes/{liveClass}/attendance', LecturerAttendance::class)->name('live-classes.attendance');
     });
 
 Route::middleware(['auth', 'verified'])

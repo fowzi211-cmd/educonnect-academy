@@ -19,6 +19,13 @@
                             <div class="text-xs text-gray-500">{{ $course->category?->name }}</div>
                             <h3 class="mt-1 font-semibold text-gray-900">{{ $course->title }}</h3>
                             <p class="mt-1 text-sm text-gray-600">{{ $course->lecturers->first()?->name }}</p>
+
+                            @php $progress = $course->videoProgressPercentFor(auth()->user()); @endphp
+                            @if ($progress !== null)
+                                <div class="mt-3">
+                                    <x-progress-bar :percent="$progress" />
+                                </div>
+                            @endif
                         </div>
                     </a>
                 @empty
