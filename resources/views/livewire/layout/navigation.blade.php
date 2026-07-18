@@ -34,6 +34,12 @@ new class extends Component
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    @if (auth()->user()->hasRole('student'))
+                        <x-nav-link :href="route('my-courses.index')" :active="request()->routeIs('my-courses.*')" wire:navigate>
+                            {{ __('My Learning') }}
+                        </x-nav-link>
+                    @endif
+
                     @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
                         <x-nav-link :href="route('lecturer-application')" :active="request()->routeIs('lecturer-application')" wire:navigate>
                             {{ __('Become a Lecturer') }}
@@ -128,6 +134,12 @@ new class extends Component
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (auth()->user()->hasRole('student'))
+                <x-responsive-nav-link :href="route('my-courses.index')" :active="request()->routeIs('my-courses.*')" wire:navigate>
+                    {{ __('My Learning') }}
+                </x-responsive-nav-link>
+            @endif
 
             @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
                 <x-responsive-nav-link :href="route('lecturer-application')" :active="request()->routeIs('lecturer-application')" wire:navigate>

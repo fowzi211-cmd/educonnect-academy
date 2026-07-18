@@ -368,5 +368,25 @@
     "Enrolled": "تاريخ التسجيل",
     "Remove Access": "إزالة الوصول",
     "Confirm Removal": "تأكيد الإزالة",
-    "No enrolments yet.": "لا توجد تسجيلات بعد."
+    "No enrolments yet.": "لا توجد تسجيلات بعد.",
+
+    "My Learning": "تعلمي",
+    "You're not enrolled in any courses yet.": "لست مسجلاً في أي دورة بعد.",
+    "Browse the catalogue": "تصفح قائمة الدورات",
+    "Course Content": "محتوى الدورة",
+    "No content has been published for this course yet.": "لم يُنشر أي محتوى لهذه الدورة بعد.",
+    "The video for this lesson has not been uploaded yet.": "لم يتم رفع فيديو هذا الدرس بعد.",
+    "Progress:": "التقدم:",
+    "Completed": "مكتمل",
+    "Select a lesson to begin.": "اختر درسًا للبدء.",
+    "Link opens shortly before start": "يفتح الرابط قبيل البدء بوقت قصير",
+    "Join": "انضمام",
+    "Live Class": "الحصة المباشرة",
+    "Date": "التاريخ",
+    "Attendance": "الحضور",
+    "Not yet recorded": "لم يُسجَّل بعد",
+    "Present": "حاضر",
+    "Absent": "غائب",
+    "Excused": "معذور",
+    "No live classes yet.": "لا توجد حصص مباشرة بعد."
 }

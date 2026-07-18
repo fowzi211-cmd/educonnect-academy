@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\LecturerDocumentController;
+use App\Http\Controllers\LessonResourceController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PublicCourseController;
 use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\VideoStreamController;
 use App\Livewire\Admin\Categories as AdminCategories;
 use App\Livewire\Admin\CourseReview;
 use App\Livewire\Admin\CourseReviewQueue;
@@ -18,6 +20,8 @@ use App\Livewire\Lecturer\CurriculumBuilder;
 use App\Livewire\Lecturer\LiveClasses as LecturerLiveClasses;
 use App\Livewire\Lecturer\MyCourses;
 use App\Livewire\LecturerDirectory;
+use App\Livewire\Student\Classroom;
+use App\Livewire\Student\MyCourses as StudentMyCourses;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('home');
@@ -48,6 +52,13 @@ Route::view('profile', 'profile')
 Route::get('lecturer-application', LecturerApplicationForm::class)
     ->middleware(['auth', 'verified'])
     ->name('lecturer-application');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('my-courses', StudentMyCourses::class)->name('my-courses.index');
+    Route::get('my-courses/{course}/classroom', Classroom::class)->name('my-courses.classroom');
+    Route::get('videos/{recordedVideo}/stream', [VideoStreamController::class, 'show'])->name('video.stream');
+    Route::get('lesson-resources/{lessonResource}/download', [LessonResourceController::class, 'download'])->name('lesson-resources.download');
+});
 
 Route::middleware(['auth', 'verified', 'permission:manage own courses'])
     ->prefix('lecturer')

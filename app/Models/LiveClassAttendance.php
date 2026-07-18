@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LiveClassAttendance extends Model
 {
+    protected $table = 'live_class_attendance';
+
     public const STATUS_UNMARKED = 'unmarked';
     public const STATUS_PRESENT = 'present';
     public const STATUS_ABSENT = 'absent';

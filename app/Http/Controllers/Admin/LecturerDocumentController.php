@@ -13,6 +13,9 @@ class LecturerDocumentController extends Controller
     {
         abort_unless(Storage::disk('local')->exists($lecturerDocument->file_path), 404);
 
-        return Storage::disk('local')->download($lecturerDocument->file_path, $lecturerDocument->original_name);
+        return Storage::disk('local')->download($lecturerDocument->file_path, $lecturerDocument->original_name, [
+            'Cache-Control' => 'private, no-store, no-cache, must-revalidate',
+            'Pragma' => 'no-cache',
+        ]);
     }
 }
