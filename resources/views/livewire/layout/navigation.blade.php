@@ -64,6 +64,12 @@ new class extends Component
                         </x-nav-link>
                     @endcan
 
+                    @can('manage enrolments')
+                        <x-nav-link :href="route('admin.enrolments')" :active="request()->routeIs('admin.enrolments')" wire:navigate>
+                            {{ __('Enrolments') }}
+                        </x-nav-link>
+                    @endcan
+
                     @can('manage settings')
                         <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')" wire:navigate>
                             {{ __('Settings') }}
@@ -150,6 +156,12 @@ new class extends Component
             @can('manage categories')
                 <x-responsive-nav-link :href="route('admin.categories')" :active="request()->routeIs('admin.categories')" wire:navigate>
                     {{ __('Categories') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('manage enrolments')
+                <x-responsive-nav-link :href="route('admin.enrolments')" :active="request()->routeIs('admin.enrolments')" wire:navigate>
+                    {{ __('Enrolments') }}
                 </x-responsive-nav-link>
             @endcan
 

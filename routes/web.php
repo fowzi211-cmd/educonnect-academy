@@ -7,6 +7,7 @@ use App\Http\Controllers\PublicPageController;
 use App\Livewire\Admin\Categories as AdminCategories;
 use App\Livewire\Admin\CourseReview;
 use App\Livewire\Admin\CourseReviewQueue;
+use App\Livewire\Admin\Enrolments as AdminEnrolments;
 use App\Livewire\Admin\LecturerApplicationReview;
 use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
@@ -81,6 +82,10 @@ Route::middleware(['auth', 'verified'])
             Route::get('courses', CourseReviewQueue::class)->name('courses.index');
             Route::get('courses/{course}', CourseReview::class)->name('courses.show');
         });
+
+        Route::get('enrolments', AdminEnrolments::class)
+            ->middleware('permission:manage enrolments')
+            ->name('enrolments');
     });
 
 require __DIR__.'/auth.php';

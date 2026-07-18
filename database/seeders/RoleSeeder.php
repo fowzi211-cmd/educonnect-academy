@@ -36,6 +36,7 @@ class RoleSeeder extends Seeder
         'manage own courses',
         'review courses',
         'publish courses',
+        'manage enrolments',
     ];
 
     public function run(): void
@@ -64,6 +65,7 @@ class RoleSeeder extends Seeder
             'manage categories',
             'review courses',
             'publish courses',
+            'manage enrolments',
         ]);
 
         Role::findByName('super_administrator')->givePermissionTo(self::PERMISSIONS);

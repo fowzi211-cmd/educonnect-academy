@@ -355,5 +355,18 @@
     "No live classes scheduled yet.": "لا توجد حصص مباشرة مجدولة بعد.",
     "Cancellation Reason": "سبب الإلغاء",
     "Confirm Cancellation": "تأكيد الإلغاء",
-    "Never mind": "تراجع"
+    "Never mind": "تراجع",
+
+    "Enrolments": "التسجيلات",
+    "Grant Complimentary Access": "منح وصول مجاني",
+    "Student email": "البريد الإلكتروني للطالب",
+    "This student is already actively enrolled in that course.": "هذا الطالب مسجل بالفعل وبشكل نشط في هذه الدورة.",
+    "Enrol": "تسجيل",
+    "Student": "الطالب",
+    "Course": "الدورة",
+    "Source": "المصدر",
+    "Enrolled": "تاريخ التسجيل",
+    "Remove Access": "إزالة الوصول",
+    "Confirm Removal": "تأكيد الإزالة",
+    "No enrolments yet.": "لا توجد تسجيلات بعد."
 }
