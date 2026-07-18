@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LecturerDocumentController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LessonResourceController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PublicCourseController;
@@ -13,6 +14,9 @@ use App\Livewire\Admin\Enrolments as AdminEnrolments;
 use App\Livewire\Admin\LecturerApplicationReview;
 use App\Livewire\Admin\LecturerApplications;
 use App\Livewire\Admin\Settings as AdminSettings;
+use App\Livewire\Checkout\Complete as CheckoutComplete;
+use App\Livewire\Checkout\Show as CheckoutShow;
+use App\Livewire\Checkout\TestCheckout;
 use App\Livewire\CourseCatalogue;
 use App\Livewire\LecturerApplicationForm;
 use App\Livewire\Lecturer\Attendance as LecturerAttendance;
@@ -23,6 +27,7 @@ use App\Livewire\Lecturer\MyCourses;
 use App\Livewire\LecturerDirectory;
 use App\Livewire\Student\Classroom;
 use App\Livewire\Student\MyCourses as StudentMyCourses;
+use App\Livewire\Student\Subscriptions as StudentSubscriptions;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('home');
@@ -59,6 +64,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('my-courses/{course}/classroom', Classroom::class)->name('my-courses.classroom');
     Route::get('videos/{recordedVideo}/stream', [VideoStreamController::class, 'show'])->name('video.stream');
     Route::get('lesson-resources/{lessonResource}/download', [LessonResourceController::class, 'download'])->name('lesson-resources.download');
+
+    Route::get('courses/{course}/subscribe', CheckoutShow::class)->name('checkout.show');
+    Route::get('checkout/test/{subscription}', TestCheckout::class)->name('checkout.test.show');
+    Route::get('checkout/{subscription}/complete', CheckoutComplete::class)->name('checkout.complete');
+
+    Route::get('my-subscriptions', StudentSubscriptions::class)->name('my-subscriptions.index');
+    Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
 });
 
 Route::middleware(['auth', 'verified', 'permission:manage own courses'])

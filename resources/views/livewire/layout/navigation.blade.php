@@ -38,6 +38,9 @@ new class extends Component
                         <x-nav-link :href="route('my-courses.index')" :active="request()->routeIs('my-courses.*')" wire:navigate>
                             {{ __('My Learning') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('my-subscriptions.index')" :active="request()->routeIs('my-subscriptions.*')" wire:navigate>
+                            {{ __('My Subscriptions') }}
+                        </x-nav-link>
                     @endif
 
                     @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
@@ -138,6 +141,9 @@ new class extends Component
             @if (auth()->user()->hasRole('student'))
                 <x-responsive-nav-link :href="route('my-courses.index')" :active="request()->routeIs('my-courses.*')" wire:navigate>
                     {{ __('My Learning') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('my-subscriptions.index')" :active="request()->routeIs('my-subscriptions.*')" wire:navigate>
+                    {{ __('My Subscriptions') }}
                 </x-responsive-nav-link>
             @endif
 
