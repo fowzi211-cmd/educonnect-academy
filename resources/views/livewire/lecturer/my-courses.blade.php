@@ -34,6 +34,9 @@
                                     <a href="{{ route('lecturer.courses.curriculum', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-800 underline">
                                         {{ __('Curriculum') }}
                                     </a>
+                                    <a href="{{ route('lecturer.courses.live-classes', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-800 underline">
+                                        {{ __('Live Classes') }}
+                                    </a>
                                     <a href="{{ route('lecturer.courses.edit', $course) }}" wire:navigate class="text-indigo-600 hover:text-indigo-800 underline">
                                         {{ __('Edit') }}
                                     </a>

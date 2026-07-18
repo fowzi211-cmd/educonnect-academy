@@ -14,6 +14,7 @@ use App\Livewire\CourseCatalogue;
 use App\Livewire\LecturerApplicationForm;
 use App\Livewire\Lecturer\CourseForm;
 use App\Livewire\Lecturer\CurriculumBuilder;
+use App\Livewire\Lecturer\LiveClasses as LecturerLiveClasses;
 use App\Livewire\Lecturer\MyCourses;
 use App\Livewire\LecturerDirectory;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,7 @@ Route::middleware(['auth', 'verified', 'permission:manage own courses'])
         Route::get('courses/create', CourseForm::class)->name('courses.create');
         Route::get('courses/{course}/edit', CourseForm::class)->name('courses.edit');
         Route::get('courses/{course}/curriculum', CurriculumBuilder::class)->name('courses.curriculum');
+        Route::get('courses/{course}/live-classes', LecturerLiveClasses::class)->name('courses.live-classes');
     });
 
 Route::middleware(['auth', 'verified'])

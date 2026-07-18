@@ -336,5 +336,24 @@
     "Lesson title": "عنوان الدرس",
     "Add Lesson": "إضافة درس",
     "Add Section": "إضافة قسم",
-    "Section title, e.g. Week 1": "عنوان القسم، مثال: الأسبوع الأول"
+    "Section title, e.g. Week 1": "عنوان القسم، مثال: الأسبوع الأول",
+
+    "Live Classes": "الحصص المباشرة",
+    "Edit Live Class": "تعديل الحصة المباشرة",
+    "Schedule Live Class": "جدولة حصة مباشرة",
+    "Description": "الوصف",
+    "Starts At": "وقت البدء",
+    "Ends At": "وقت الانتهاء",
+    "Times are in the platform timezone (:tz).": "الأوقات بتوقيت المنصة (:tz).",
+    "Provider": "المزود",
+    "Other": "أخرى",
+    "Student Join Link": "رابط انضمام الطالب",
+    "Shown to enrolled students shortly before the class starts.": "يُعرض للطلاب المسجلين قبيل بدء الحصة بوقت قصير.",
+    "Host Link (optional)": "رابط المضيف (اختياري)",
+    "Only visible to you. Never shown to students.": "مرئي لك فقط. لا يُعرض للطلاب أبدًا.",
+    "Starts": "البدء",
+    "No live classes scheduled yet.": "لا توجد حصص مباشرة مجدولة بعد.",
+    "Cancellation Reason": "سبب الإلغاء",
+    "Confirm Cancellation": "تأكيد الإلغاء",
+    "Never mind": "تراجع"
 }
