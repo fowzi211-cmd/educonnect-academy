@@ -6,6 +6,24 @@
     display: none !important;
 }
 
+/* View-only course content (see resources/js/protected-content.js). */
+.protected-area {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+.protected-area input,
+.protected-area textarea,
+.protected-area select {
+    -webkit-user-select: text;
+    user-select: text;
+}
+.protected-area img,
+.protected-area canvas,
+.protected-area video {
+    -webkit-user-drag: none;
+}
+
 /*
  * Brand color custom properties, set inline per-request from the admin's
  * branding settings (see layouts/public.blade.php, layouts/app.blade.php,

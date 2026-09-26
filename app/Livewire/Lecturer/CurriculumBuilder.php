@@ -172,7 +172,11 @@ class CurriculumBuilder extends Component
     {
         $lesson = $this->findOwnedLesson($this->expandedLessonId);
 
-        $this->validate(['resourceFiles.*' => ['required', 'file', 'max:10240']]);
+        // Only types the classroom can show on screen: there is no download option.
+        $this->validate(['resourceFiles.*' => [
+            'required', 'file', 'max:204800',
+            'mimes:'.implode(',', array_keys(LessonResource::VIEWABLE)),
+        ]]);
 
         foreach ($this->resourceFiles as $file) {
             LessonResource::create([

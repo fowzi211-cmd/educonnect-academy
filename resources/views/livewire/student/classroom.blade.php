@@ -83,9 +83,11 @@
                             @endif
 
                             @if ($selectedLesson->content_type === 'video' && $selectedLesson->video)
-                                <div class="mt-4" wire:key="video-{{ $selectedLesson->video->id }}">
+                                <x-protected-area :fullscreen="true" class="mt-4" wire:key="video-{{ $selectedLesson->video->id }}">
                                     <video
                                         controls
+                                        controlsList="nodownload nofullscreen noremoteplayback"
+                                        disablePictureInPicture
                                         class="w-full rounded-lg bg-black"
                                         x-data
                                         x-init="$el.currentTime = {{ $selectedVideoProgress->watched_seconds ?? 0 }}"
@@ -100,23 +102,38 @@
                                             &middot; {{ __('Completed') }}
                                         @endif
                                     </div>
-                                </div>
+                                </x-protected-area>
                             @elseif ($selectedLesson->content_type === 'video')
                                 <p class="mt-4 text-lg text-gray-800">{{ __('The video for this lesson has not been uploaded yet.') }}</p>
                             @endif
 
                             @if ($selectedLesson->resources->isNotEmpty())
-                                <div class="mt-6">
-                                    <h4 class="text-lg font-medium text-gray-900">{{ __('Downloadable Resources') }}</h4>
-                                    <ul class="mt-2 space-y-1">
-                                        @foreach ($selectedLesson->resources as $resource)
-                                            <li>
-                                                <a href="{{ route('lesson-resources.download', $resource) }}" class="text-lg text-indigo-600 hover:text-indigo-800 underline">
-                                                    {{ $resource->original_name }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                <div class="mt-6 space-y-6">
+                                    <h4 class="text-lg font-medium text-gray-900">{{ __('Lesson Materials') }}</h4>
+                                    @foreach ($selectedLesson->resources as $resource)
+                                        @php
+                                            $kind = $resource->viewerKind();
+                                            $src = route('lesson-resources.view', $resource);
+                                        @endphp
+                                        <div wire:key="resource-{{ $resource->id }}">
+                                            <p class="text-lg text-gray-800">{{ $resource->original_name }}</p>
+                                            @if ($kind)
+                                                <x-protected-area :fullscreen="$kind === 'video'" class="mt-2 rounded-lg">
+                                                    @if ($kind === 'pdf')
+                                                        <x-pdf-viewer :url="$src" />
+                                                    @elseif ($kind === 'image')
+                                                        <img src="{{ $src }}" alt="{{ $resource->original_name }}" draggable="false" class="w-full rounded-lg">
+                                                    @elseif ($kind === 'audio')
+                                                        <audio controls controlsList="nodownload noremoteplayback" src="{{ $src }}" class="w-full"></audio>
+                                                    @else
+                                                        <video controls controlsList="nodownload nofullscreen noremoteplayback" disablePictureInPicture src="{{ $src }}" class="w-full rounded-lg bg-black"></video>
+                                                    @endif
+                                                </x-protected-area>
+                                            @else
+                                                <p class="mt-1 text-gray-600 italic">{{ __('This file type cannot be viewed on screen. Ask your lecturer to upload it as a PDF.') }}</p>
+                                            @endif
+                                        </div>
+                                    @endforeach
                                 </div>
                             @endif
                         @else

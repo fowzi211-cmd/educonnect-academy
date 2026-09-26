@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\BlockDirectMediaAccess;
 use App\Http\Middleware\EnsureNotSuspended;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
@@ -31,6 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'protected.media' => BlockDirectMediaAccess::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

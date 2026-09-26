@@ -23,9 +23,14 @@ class VideoStreamController extends Controller
 
         // Never let the browser (or any shared cache) retain this response: access can be
         // revoked between requests, and a cached copy would keep playing regardless.
-        return response()->file(Storage::disk('local')->path($recordedVideo->video_path), [
+        $response = response()->file(Storage::disk('local')->path($recordedVideo->video_path), [
+            'Content-Disposition' => 'inline',
+            'X-Content-Type-Options' => 'nosniff',
             'Cache-Control' => 'private, no-store, no-cache, must-revalidate',
             'Pragma' => 'no-cache',
         ]);
+
+        // Symfony marks file responses "public" by default, which contradicts no-store.
+        return $response->setPrivate();
     }
 }

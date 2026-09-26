@@ -76,7 +76,8 @@
                                         @endif
 
                                         <div>
-                                            <h4 class="text-lg font-medium text-gray-900">{{ __('Downloadable Resources') }}</h4>
+                                            <h4 class="text-lg font-medium text-gray-900">{{ __('Lesson Materials') }}</h4>
+                                            <p class="text-sm text-gray-600">{{ __('View-only for students (no download). Allowed: PDF, images, audio (mp3, m4a, wav, ogg) and video (mp4, webm).') }}</p>
                                             <ul class="mt-1 space-y-1">
                                                 @forelse ($lesson->resources as $resource)
                                                     <li class="flex items-center justify-between text-lg">
@@ -88,7 +89,7 @@
                                                 @endforelse
                                             </ul>
                                             <form wire:submit="uploadResources" class="mt-2 flex items-center gap-2">
-                                                <input wire:model="resourceFiles" type="file" multiple class="text-lg text-gray-800" />
+                                                <input wire:model="resourceFiles" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.mp3,.m4a,.wav,.ogg,.mp4,.webm" class="text-lg text-gray-800" />
                                                 <x-primary-button>{{ __('Upload') }}</x-primary-button>
                                             </form>
                                             <x-input-error :messages="$errors->get('resourceFiles.*')" class="mt-2" />

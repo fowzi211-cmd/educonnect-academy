@@ -1129,5 +1129,12 @@
     "New Password (optional)": "كلمة مرور جديدة (اختياري)",
     "Password (optional)": "كلمة المرور (اختياري)",
     "Leave blank to keep the current password. Changing it signs the user out everywhere.": "اتركها فارغة للإبقاء على كلمة المرور الحالية. تغييرها يسجّل خروج المستخدم من كل الأجهزة.",
-    "Leave blank to email them a link to set their own password.": "اتركها فارغة لإرسال رابط بالبريد ليعيّن المستخدم كلمة مروره بنفسه."
+    "Leave blank to email them a link to set their own password.": "اتركها فارغة لإرسال رابط بالبريد ليعيّن المستخدم كلمة مروره بنفسه.",
+    "Lesson Materials": "مواد الدرس",
+    "View-only for students (no download). Allowed: PDF, images, audio (mp3, m4a, wav, ogg) and video (mp4, webm).": "للعرض فقط للطلاب (بدون تنزيل). المسموح: PDF والصور والصوت (mp3 وm4a وwav وogg) والفيديو (mp4 وwebm).",
+    "Full screen": "ملء الشاشة",
+    "Content is hidden while this window is not active. Click here to continue.": "المحتوى مخفي أثناء عدم نشاط هذه النافذة. اضغط هنا للمتابعة.",
+    "Loading document…": "جارٍ تحميل المستند…",
+    "This document could not be displayed.": "تعذّر عرض هذا المستند.",
+    "This file type cannot be viewed on screen. Ask your lecturer to upload it as a PDF.": "لا يمكن عرض هذا النوع من الملفات على الشاشة. اطلب من المحاضر رفعه بصيغة PDF."
 }

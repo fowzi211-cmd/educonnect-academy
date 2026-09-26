@@ -119,8 +119,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('quizzes/{quiz}/take', TakeQuiz::class)->name('my-courses.quizzes.take');
     Route::get('assignments/{assignment}/submit', SubmitAssignment::class)->name('my-courses.assignments.submit');
     Route::get('assignments/{assignment}/attachment', [AssignmentAttachmentController::class, 'download'])->name('assignments.attachment.download');
-    Route::get('videos/{recordedVideo}/stream', [VideoStreamController::class, 'show'])->name('video.stream');
-    Route::get('lesson-resources/{lessonResource}/download', [LessonResourceController::class, 'download'])->name('lesson-resources.download');
+    Route::get('videos/{recordedVideo}/stream', [VideoStreamController::class, 'show'])->middleware('protected.media')->name('video.stream');
+    Route::get('lesson-resources/{lessonResource}/view', [LessonResourceController::class, 'view'])->middleware('protected.media')->name('lesson-resources.view');
     Route::get('assignment-submissions/{assignmentSubmission}/download', [AssignmentSubmissionController::class, 'download'])->name('assignment-submissions.download');
     Route::get('my-certificates', StudentCertificates::class)->name('my-certificates.index');
     Route::get('certificates/{certificate}', [CertificateController::class, 'show'])->name('certificates.show');

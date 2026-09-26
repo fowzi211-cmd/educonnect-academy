@@ -6,3 +6,5 @@ window.addEventListener('unhandledrejection', (event) => {
         event.preventDefault();
     }
 });
+
+import './protected-content';
