@@ -9,14 +9,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Subscription extends Model
 {
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_TRIAL = 'trial';
+
     public const STATUS_ACTIVE = 'active';
+
     public const STATUS_PAST_DUE = 'past_due';
+
     public const STATUS_GRACE_PERIOD = 'grace_period';
+
     public const STATUS_PAUSED = 'paused';
+
     public const STATUS_CANCELLED = 'cancelled';
+
     public const STATUS_EXPIRED = 'expired';
+
     public const STATUS_REFUNDED = 'refunded';
+
     public const STATUS_PAYMENT_FAILED = 'payment_failed';
 
     /** Statuses under which the student should keep classroom access. */

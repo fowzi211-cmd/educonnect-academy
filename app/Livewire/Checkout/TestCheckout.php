@@ -20,6 +20,11 @@ class TestCheckout extends Component
 
     public function mount(Subscription $subscription): void
     {
+        // The simulate-success button below grants real course access, so this
+        // page must never be reachable on a production deploy, even if the
+        // active gateway Setting was left on "test" by mistake.
+        abort_unless(app()->environment('local', 'testing'), 404);
+
         abort_unless($subscription->user_id === Auth::id(), 403);
         abort_unless($subscription->status === Subscription::STATUS_PENDING, 404);
 
@@ -28,6 +33,8 @@ class TestCheckout extends Component
 
     public function simulateSuccess(PaymentService $payments): void
     {
+        abort_unless(app()->environment('local', 'testing'), 404);
+
         $transaction = $this->subscription->transactions()->latest()->firstOrFail();
 
         $payments->confirmPayment($transaction, succeeded: true, gatewayTransactionId: 'test_'.$this->subscription->id.'_'.now()->timestamp);
@@ -37,6 +44,8 @@ class TestCheckout extends Component
 
     public function simulateFailure(PaymentService $payments): void
     {
+        abort_unless(app()->environment('local', 'testing'), 404);
+
         $transaction = $this->subscription->transactions()->latest()->firstOrFail();
 
         $payments->confirmPayment($transaction, succeeded: false, failureReason: __('The test card was declined.'));

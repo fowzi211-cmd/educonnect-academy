@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $defaults = [
-            'branding.platform_name' => ['value' => 'EduConnect Academy', 'type' => 'string'],
+            'branding.platform_name' => ['value' => 'Dr. Nada Center', 'type' => 'string'],
             'branding.logo_path' => ['value' => null, 'type' => 'string'],
             'branding.primary_color' => ['value' => '#4f46e5', 'type' => 'string'],
             'branding.secondary_color' => ['value' => '#0ea5e9', 'type' => 'string'],

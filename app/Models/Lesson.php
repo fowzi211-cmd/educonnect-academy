@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Lesson extends Model
 {
     public const TYPE_READING = 'reading';
+
     public const TYPE_VIDEO = 'video';
 
     protected $fillable = ['course_section_id', 'title', 'description', 'content_type', 'position'];
@@ -27,5 +28,10 @@ class Lesson extends Model
     public function resources(): HasMany
     {
         return $this->hasMany(LessonResource::class);
+    }
+
+    public function progress(): HasMany
+    {
+        return $this->hasMany(LessonProgress::class);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Livewire\Lecturer;
 use App\Models\AuditLog;
 use App\Models\LiveClass;
 use App\Models\LiveClassAttendance;
+use App\Models\User;
+use App\Services\Assessments\CourseCompletionService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -22,7 +24,7 @@ class Attendance extends Component
         $this->liveClass = $liveClass;
     }
 
-    public function mark(int $userId, string $status): void
+    public function mark(int $userId, string $status, CourseCompletionService $completion): void
     {
         abort_unless(in_array($status, [
             LiveClassAttendance::STATUS_PRESENT,
@@ -40,6 +42,10 @@ class Attendance extends Component
         );
 
         AuditLog::record('attendance.marked', subject: $record, new: ['status' => $status]);
+
+        if ($status === LiveClassAttendance::STATUS_PRESENT && ($student = User::find($userId))) {
+            $completion->checkAndRecordCompletion($student, $this->liveClass->course);
+        }
     }
 
     public function render()

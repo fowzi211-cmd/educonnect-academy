@@ -17,7 +17,7 @@ return [
         'ar' => ['name' => 'Arabic', 'native' => 'العربية', 'direction' => 'rtl'],
     ],
 
-    'default_currency' => env('PLATFORM_DEFAULT_CURRENCY', 'SAR'),
+    'default_currency' => env('PLATFORM_DEFAULT_CURRENCY', 'SDG'),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,5 +44,18 @@ return [
     */
 
     'live_class_link_release_minutes' => env('LIVE_CLASS_LINK_RELEASE_MINUTES', 15),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Payment Grace Period
+    |--------------------------------------------------------------------------
+    |
+    | How many days a subscription keeps classroom access after a failed
+    | renewal payment before access is revoked, giving the student time to
+    | update their payment method (spec section 11).
+    |
+    */
+
+    'payment_grace_period_days' => env('PAYMENT_GRACE_PERIOD_DAYS', 3),
 
 ];

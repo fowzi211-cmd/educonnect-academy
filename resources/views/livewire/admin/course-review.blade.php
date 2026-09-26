@@ -6,12 +6,12 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="font-medium text-lg text-gray-900">{{ $course->title }}</h3>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-lg text-gray-800">
                             {{ __('by') }} {{ $course->creator->name }}
                             &middot; {{ $course->category?->name ?? __('No category') }}
                         </p>
@@ -19,27 +19,27 @@
                     <x-course-status-badge :status="$course->status" />
                 </div>
 
-                <dl class="mt-6 space-y-4 text-sm">
+                <dl class="mt-6 space-y-4 text-lg">
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Short Description') }}</dt>
-                        <dd class="mt-1 text-gray-600">{{ $course->short_description }}</dd>
+                        <dt class="font-medium text-gray-800">{{ __('Short Description') }}</dt>
+                        <dd class="mt-1 text-gray-800">{{ $course->short_description }}</dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Full Description') }}</dt>
-                        <dd class="mt-1 text-gray-600 whitespace-pre-line">{{ $course->full_description }}</dd>
+                        <dt class="font-medium text-gray-800">{{ __('Full Description') }}</dt>
+                        <dd class="mt-1 text-gray-800 whitespace-pre-line">{{ $course->full_description }}</dd>
                     </div>
                     <div class="grid grid-cols-3 gap-4">
                         <div>
-                            <dt class="font-medium text-gray-700">{{ __('Level') }}</dt>
-                            <dd class="mt-1 text-gray-600">{{ ucfirst($course->level) }}</dd>
+                            <dt class="font-medium text-gray-800">{{ __('Level') }}</dt>
+                            <dd class="mt-1 text-gray-800">{{ ucfirst($course->level) }}</dd>
                         </div>
                         <div>
-                            <dt class="font-medium text-gray-700">{{ __('Delivery Format') }}</dt>
-                            <dd class="mt-1 text-gray-600">{{ ucfirst($course->delivery_format) }}</dd>
+                            <dt class="font-medium text-gray-800">{{ __('Delivery Format') }}</dt>
+                            <dd class="mt-1 text-gray-800">{{ ucfirst($course->delivery_format) }}</dd>
                         </div>
                         <div>
-                            <dt class="font-medium text-gray-700">{{ __('Monthly Price') }}</dt>
-                            <dd class="mt-1 text-gray-600">
+                            <dt class="font-medium text-gray-800">{{ __('Monthly Price') }}</dt>
+                            <dd class="mt-1 text-gray-800">
                                 {{ $course->monthly_price ? number_format($course->monthly_price, 2).' '.$course->currency : __('Free') }}
                             </dd>
                         </div>
@@ -108,13 +108,13 @@
             @endcan
 
             @if ($course->revision_notes && $course->status !== \App\Models\Course::STATUS_UNDER_REVIEW)
-                <div class="bg-amber-50 rounded-lg p-4 text-sm text-amber-800">
+                <div class="bg-amber-50 rounded-lg p-4 text-lg text-amber-800">
                     <p class="font-medium">{{ __('Latest note:') }}</p>
                     <p class="mt-1 whitespace-pre-line">{{ $course->revision_notes }}</p>
                 </div>
             @endif
 
-            <a href="{{ route('admin.courses.index') }}" wire:navigate class="text-sm text-gray-600 hover:text-gray-900 underline">
+            <a href="{{ route('admin.courses.index') }}" wire:navigate class="text-lg text-gray-800 hover:text-gray-900 underline">
                 {{ __('Back to review queue') }}
             </a>
         </div>

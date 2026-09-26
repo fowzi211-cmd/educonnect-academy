@@ -9,13 +9,13 @@
                         @if ($lecturer->photo_path)
                             <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($lecturer->photo_path) }}" alt="{{ $lecturer->user->name }}" class="h-12 w-12 rounded-full object-cover">
                         @else
-                            <div class="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-medium">
+                            <div class="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-medium">
                                 {{ mb_substr($lecturer->user->name, 0, 1) }}
                             </div>
                         @endif
                         <div>
                             <h3 class="font-semibold text-gray-900">{{ $lecturer->user->name }}</h3>
-                            <p class="text-sm text-gray-500">{{ $lecturer->headline }}</p>
+                            <p class="text-sm text-gray-600">{{ $lecturer->headline }}</p>
                         </div>
                     </div>
                     @if ($lecturer->areas_of_expertise)
@@ -23,7 +23,7 @@
                     @endif
                 </a>
             @empty
-                <p class="col-span-full text-center text-gray-500 py-12">{{ __('No approved lecturers yet.') }}</p>
+                <p class="col-span-full text-center text-gray-600 py-12">{{ __('No approved lecturers yet.') }}</p>
             @endforelse
         </div>
 

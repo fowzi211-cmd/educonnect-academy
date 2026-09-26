@@ -78,7 +78,7 @@ class CourseDemoSeeder extends Seeder
             [
                 'title' => 'Introduction to Statistics',
                 'short_description' => 'Core statistical concepts for everyday decision making.',
-                'full_description' => "Learn how to summarise data, understand probability, and interpret results with confidence. Includes weekly live problem-solving sessions and recorded lectures you can revisit anytime.",
+                'full_description' => 'Learn how to summarise data, understand probability, and interpret results with confidence. Includes weekly live problem-solving sessions and recorded lectures you can revisit anytime.',
                 'category' => 'Mathematics',
                 'lecturer' => 'lecturer1@educonnect.test',
                 'level' => 'beginner',
@@ -91,7 +91,7 @@ class CourseDemoSeeder extends Seeder
             [
                 'title' => 'Python for Beginners',
                 'short_description' => 'Start programming with Python, no prior experience required.',
-                'full_description' => "A hands-on introduction to Python: variables, control flow, functions, and small real-world projects. Recorded lessons with optional live office hours.",
+                'full_description' => 'A hands-on introduction to Python: variables, control flow, functions, and small real-world projects. Recorded lessons with optional live office hours.',
                 'category' => 'Computer Science',
                 'lecturer' => 'lecturer2@educonnect.test',
                 'level' => 'beginner',
@@ -105,7 +105,7 @@ class CourseDemoSeeder extends Seeder
             [
                 'title' => 'Business Communication Skills',
                 'short_description' => 'Write and speak more effectively in professional settings.',
-                'full_description' => "Covers email etiquette, presentations, negotiation language, and meeting facilitation for Arabic and English-speaking professionals.",
+                'full_description' => 'Covers email etiquette, presentations, negotiation language, and meeting facilitation for Arabic and English-speaking professionals.',
                 'category' => 'Business',
                 'lecturer' => 'lecturer3@educonnect.test',
                 'level' => 'intermediate',
@@ -118,7 +118,7 @@ class CourseDemoSeeder extends Seeder
             [
                 'title' => 'Advanced Calculus',
                 'short_description' => 'Multivariable calculus for engineering and science students.',
-                'full_description' => "Partial derivatives, multiple integrals, and vector calculus, building on a first course in calculus.",
+                'full_description' => 'Partial derivatives, multiple integrals, and vector calculus, building on a first course in calculus.',
                 'category' => 'Mathematics',
                 'lecturer' => 'lecturer1@educonnect.test',
                 'level' => 'advanced',
@@ -130,7 +130,7 @@ class CourseDemoSeeder extends Seeder
             [
                 'title' => 'Public Speaking Essentials',
                 'short_description' => 'Build confidence presenting to any audience.',
-                'full_description' => "Practical techniques for structuring talks, managing nerves, and engaging an audience, with recorded practice sessions.",
+                'full_description' => 'Practical techniques for structuring talks, managing nerves, and engaging an audience, with recorded practice sessions.',
                 'category' => 'Business',
                 'lecturer' => 'lecturer2@educonnect.test',
                 'level' => 'beginner',
@@ -144,7 +144,7 @@ class CourseDemoSeeder extends Seeder
             [
                 'title' => 'Arabic for Non-Native Speakers',
                 'short_description' => 'Modern Standard Arabic for adult learners.',
-                'full_description' => "Reading, writing, and conversational Arabic from the ground up, paced for working professionals.",
+                'full_description' => 'Reading, writing, and conversational Arabic from the ground up, paced for working professionals.',
                 'category' => 'Languages',
                 'lecturer' => 'lecturer3@educonnect.test',
                 'level' => 'beginner',
@@ -175,7 +175,7 @@ class CourseDemoSeeder extends Seeder
                 'monthly_price' => $data['monthly_price'] ?? null,
                 'trial_period_days' => $data['trial_period_days'] ?? null,
                 'certificate_available' => $data['certificate_available'] ?? false,
-                'currency' => 'SAR',
+                'currency' => config('platform.default_currency'),
                 'status' => $data['status'],
                 'submitted_at' => $data['submitted_at'] ?? null,
                 'published_at' => $data['status'] === Course::STATUS_PUBLISHED ? now() : null,

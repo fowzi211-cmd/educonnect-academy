@@ -6,16 +6,16 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <p class="text-sm text-gray-500 mb-6">{{ $liveClass->starts_at->format('Y-m-d H:i') }}</p>
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            <p class="text-lg text-gray-800 mb-6">{{ $liveClass->starts_at->format('Y-m-d H:i') }}</p>
 
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                <table class="min-w-full divide-y divide-gray-200 text-lg">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-start font-medium text-gray-500">{{ __('Student') }}</th>
-                            <th class="px-4 py-2 text-start font-medium text-gray-500">{{ __('Status') }}</th>
-                            <th class="px-4 py-2 text-start font-medium text-gray-500">{{ __('Mark') }}</th>
+                            <th class="px-4 py-2 text-start font-medium text-gray-800">{{ __('Student') }}</th>
+                            <th class="px-4 py-2 text-start font-medium text-gray-800">{{ __('Status') }}</th>
+                            <th class="px-4 py-2 text-start font-medium text-gray-800">{{ __('Mark') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -24,16 +24,16 @@
                             <tr wire:key="student-{{ $student->id }}">
                                 <td class="px-4 py-3">
                                     <div class="font-medium text-gray-900">{{ $student->name }}</div>
-                                    <div class="text-gray-500">{{ $student->email }}</div>
+                                    <div class="text-gray-800">{{ $student->email }}</div>
                                 </td>
                                 <td class="px-4 py-3">
                                     @php $status = $record->status ?? 'unmarked'; @endphp
                                     <span @class([
-                                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium',
                                         'bg-green-100 text-green-800' => $status === 'present',
                                         'bg-red-100 text-red-800' => $status === 'absent',
                                         'bg-amber-100 text-amber-800' => $status === 'excused',
-                                        'bg-gray-100 text-gray-500' => $status === 'unmarked',
+                                        'bg-gray-100 text-gray-800' => $status === 'unmarked',
                                     ])>
                                         {{ $status === 'unmarked' ? __('Not yet recorded') : ucfirst($status) }}
                                     </span>
@@ -46,7 +46,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-4 py-6 text-center text-gray-500">{{ __('No enrolled students yet.') }}</td>
+                                <td colspan="3" class="px-4 py-6 text-center text-gray-800">{{ __('No enrolled students yet.') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

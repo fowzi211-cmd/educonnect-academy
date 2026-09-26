@@ -33,8 +33,19 @@
                             {{ __('Try Again') }}
                         </a>
                     </div>
+                @elseif ($subscription->gateway === 'bank_transfer')
+                    <div class="text-amber-600 text-3xl">&hellip;</div>
+                    <h3 class="mt-3 font-semibold text-lg text-gray-900">{{ __('Receipt received — awaiting review') }}</h3>
+                    @if ($transaction?->receipt_reference_number)
+                        <p class="mt-2 text-sm text-gray-900 font-medium" dir="ltr">
+                            {{ __('Your reference number: :number', ['number' => $transaction->receipt_reference_number]) }}
+                        </p>
+                    @endif
+                    <p class="mt-2 text-sm text-gray-600">
+                        {{ __("We'll review your receipt and activate your subscription within 1 business day. This page will update automatically — no need to refresh.") }}
+                    </p>
                 @else
-                    <div class="text-gray-400 text-3xl">&hellip;</div>
+                    <div class="text-gray-500 text-3xl">&hellip;</div>
                     <h3 class="mt-3 font-semibold text-lg text-gray-900">{{ __('Confirming your payment') }}</h3>
                     <p class="mt-2 text-sm text-gray-600">
                         {{ __("This usually takes a few seconds. This page will update automatically — no need to refresh.") }}

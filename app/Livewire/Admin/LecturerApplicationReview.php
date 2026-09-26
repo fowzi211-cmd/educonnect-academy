@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\AuditLog;
 use App\Models\LecturerProfile;
+use App\Notifications\LecturerApplicationReviewed;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -41,6 +42,8 @@ class LecturerApplicationReview extends Component
         );
 
         $this->lecturerProfile->refresh();
+
+        $this->lecturerProfile->user->notify(new LecturerApplicationReviewed($this->lecturerProfile, approved: true));
     }
 
     public function reject(): void
@@ -67,6 +70,8 @@ class LecturerApplicationReview extends Component
         );
 
         $this->lecturerProfile->refresh();
+
+        $this->lecturerProfile->user->notify(new LecturerApplicationReviewed($this->lecturerProfile, approved: false));
     }
 
     public function render()

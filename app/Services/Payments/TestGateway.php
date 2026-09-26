@@ -28,9 +28,14 @@ class TestGateway implements PaymentGatewayContract
         return route('checkout.test.show', $subscription);
     }
 
-    public function cancelSubscription(Subscription $subscription): void
+    public function cancelSubscription(Subscription $subscription, bool $immediate): void
     {
         // Nothing external to cancel — the sandbox never created a remote subscription.
+    }
+
+    public function resumeSubscription(Subscription $subscription): void
+    {
+        // Nothing external to resume — see cancelSubscription().
     }
 
     public function refund(Transaction $transaction, float $amount): string

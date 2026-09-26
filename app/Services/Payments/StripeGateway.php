@@ -6,6 +6,7 @@ use App\Contracts\PaymentGatewayContract;
 use App\Models\Subscription;
 use App\Models\Transaction;
 use RuntimeException;
+use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
 /**
@@ -71,17 +72,41 @@ class StripeGateway implements PaymentGatewayContract
         return $session->url;
     }
 
-    public function cancelSubscription(Subscription $subscription): void
+    public function cancelSubscription(Subscription $subscription, bool $immediate): void
     {
         if (! $subscription->gateway_subscription_id) {
             return;
         }
 
         try {
-            $this->client->subscriptions->cancel($subscription->gateway_subscription_id);
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+            if ($immediate) {
+                $this->client->subscriptions->cancel($subscription->gateway_subscription_id);
+            } else {
+                // Stripe stops billing and cancels the subscription itself once
+                // the current period ends — no separate job needs to call back
+                // in to finish the job, unlike PayPal.
+                $this->client->subscriptions->update($subscription->gateway_subscription_id, [
+                    'cancel_at_period_end' => true,
+                ]);
+            }
+        } catch (ApiErrorException $e) {
             // Best-effort: the remote subscription may already be gone. The local
             // status change in PaymentService is authoritative either way.
+            report($e);
+        }
+    }
+
+    public function resumeSubscription(Subscription $subscription): void
+    {
+        if (! $subscription->gateway_subscription_id) {
+            return;
+        }
+
+        try {
+            $this->client->subscriptions->update($subscription->gateway_subscription_id, [
+                'cancel_at_period_end' => false,
+            ]);
+        } catch (ApiErrorException $e) {
             report($e);
         }
     }

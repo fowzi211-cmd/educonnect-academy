@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ConsentRecord;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,7 @@ new #[Layout('layouts.guest')] class extends Component
             ConsentRecord::create([
                 'user_id' => $user->id,
                 'policy_type' => 'terms_and_privacy',
-                'policy_version' => config('platform.policy_version'),
+                'policy_version' => Setting::get('platform.policy_version', config('platform.policy_version')),
                 'accepted_at' => now(),
                 'ip_address' => request()->ip(),
             ]);
@@ -116,8 +117,7 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
-                            type="password"
+            <x-password-input wire:model="password" id="password" class="block mt-1 w-full"
                             name="password"
                             required autocomplete="new-password" />
 
@@ -128,8 +128,7 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
+            <x-password-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />

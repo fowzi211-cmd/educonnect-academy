@@ -15,19 +15,19 @@
     ];
 
     $colors = [
-        'pending' => 'bg-gray-100 text-gray-600',
+        'pending' => 'bg-gray-100 text-gray-700',
         'trial' => 'bg-blue-100 text-blue-800',
         'active' => 'bg-green-100 text-green-800',
         'past_due' => 'bg-amber-100 text-amber-800',
         'grace_period' => 'bg-amber-100 text-amber-800',
-        'paused' => 'bg-gray-100 text-gray-600',
-        'cancelled' => 'bg-gray-100 text-gray-500',
-        'expired' => 'bg-gray-100 text-gray-500',
+        'paused' => 'bg-gray-100 text-gray-700',
+        'cancelled' => 'bg-gray-100 text-gray-700',
+        'expired' => 'bg-gray-100 text-gray-700',
         'refunded' => 'bg-purple-100 text-purple-800',
         'payment_failed' => 'bg-red-100 text-red-800',
     ];
 @endphp
 
-<span {{ $attributes->merge(['class' => 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium '.($colors[$status] ?? 'bg-gray-100 text-gray-600')]) }}>
+<span {{ $attributes->merge(['class' => 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium '.($colors[$status] ?? 'bg-gray-100 text-gray-700')]) }}>
     {{ $labels[$status] ?? $status }}
 </span>

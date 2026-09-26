@@ -1,6 +1,6 @@
 <x-public-layout :title="$title" :description="$description">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <nav class="text-sm text-gray-500 mb-4">
+        <nav class="text-sm text-gray-600 mb-4">
             <a href="{{ route('courses.index') }}" wire:navigate class="hover:text-gray-900">{{ __('Course Catalogue') }}</a>
             <span class="mx-1">/</span>
             <span>{{ $course->title }}</span>
@@ -12,7 +12,7 @@
 
         <div class="mt-6 flex items-start justify-between gap-6 flex-wrap">
             <div>
-                <div class="text-sm text-gray-500">{{ $course->category?->name }}</div>
+                <div class="text-sm text-gray-600">{{ $course->category?->name }}</div>
                 <h1 class="mt-1 text-2xl font-bold text-gray-900">{{ $course->title }}</h1>
                 <p class="mt-2 text-gray-600">{{ $course->short_description }}</p>
             </div>
@@ -21,7 +21,7 @@
                     {{ $course->monthly_price ? number_format($course->monthly_price, 2).' '.$course->currency.' / '.__('month') : __('Free') }}
                 </div>
                 @if ($course->trial_period_days)
-                    <div class="text-sm text-gray-500">{{ __(':days-day free trial', ['days' => $course->trial_period_days]) }}</div>
+                    <div class="text-sm text-gray-600">{{ __(':days-day free trial', ['days' => $course->trial_period_days]) }}</div>
                 @endif
             </div>
         </div>
@@ -50,13 +50,13 @@
                         @if ($lecturer->lecturerProfile?->photo_path)
                             <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($lecturer->lecturerProfile->photo_path) }}" alt="{{ $lecturer->name }}" class="h-10 w-10 rounded-full object-cover">
                         @else
-                            <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-medium">
+                            <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-medium">
                                 {{ mb_substr($lecturer->name, 0, 1) }}
                             </div>
                         @endif
                         <div>
                             <div class="text-sm font-medium text-gray-900">{{ $lecturer->name }}</div>
-                            <div class="text-xs text-gray-500">{{ $lecturer->lecturerProfile?->headline }}</div>
+                            <div class="text-xs text-gray-600">{{ $lecturer->lecturerProfile?->headline }}</div>
                         </div>
                     </a>
                 @endforeach

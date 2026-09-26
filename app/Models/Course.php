@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -15,12 +16,19 @@ class Course extends Model
     use SoftDeletes;
 
     public const STATUS_DRAFT = 'draft';
+
     public const STATUS_UNDER_REVIEW = 'under_review';
+
     public const STATUS_REVISION_REQUESTED = 'revision_requested';
+
     public const STATUS_APPROVED = 'approved';
+
     public const STATUS_PUBLISHED = 'published';
+
     public const STATUS_UNPUBLISHED = 'unpublished';
+
     public const STATUS_SUSPENDED = 'suspended';
+
     public const STATUS_ARCHIVED = 'archived';
 
     public const STATUSES = [
@@ -35,6 +43,7 @@ class Course extends Model
     ];
 
     public const LEVELS = ['beginner', 'intermediate', 'advanced'];
+
     public const DELIVERY_FORMATS = ['live', 'recorded', 'blended'];
 
     protected $fillable = [
@@ -131,6 +140,46 @@ class Course extends Model
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(Quiz::class);
+    }
+
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(Assignment::class);
+    }
+
+    public function announcements(): HasMany
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
+    public function discussionThreads(): HasMany
+    {
+        return $this->hasMany(DiscussionThread::class);
+    }
+
+    public function completionCriteria(): HasOne
+    {
+        return $this->hasOne(CourseCompletionCriteria::class);
+    }
+
+    public function completions(): HasMany
+    {
+        return $this->hasMany(CourseCompletion::class);
+    }
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    public function commissionRates(): HasMany
+    {
+        return $this->hasMany(LecturerCommissionRate::class);
     }
 
     public function scopePublished(Builder $query): Builder

@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class LiveClass extends Model
 {
     public const STATUS_SCHEDULED = 'scheduled';
+
     public const STATUS_CANCELLED = 'cancelled';
+
     public const STATUS_COMPLETED = 'completed';
 
     public const PROVIDERS = ['zoom', 'google_meet', 'teams', 'jitsi', 'other'];
@@ -48,7 +50,8 @@ class LiveClass extends Model
      */
     public function isJoinLinkReleased(): bool
     {
-        $releaseAt = $this->starts_at->copy()->subMinutes(config('platform.live_class_link_release_minutes'));
+        $minutes = Setting::get('platform.live_class_link_release_minutes', config('platform.live_class_link_release_minutes'));
+        $releaseAt = $this->starts_at->copy()->subMinutes($minutes);
 
         return now()->between($releaseAt, $this->ends_at);
     }

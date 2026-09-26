@@ -4,14 +4,14 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Live Classes') }}: {{ $course->title }}
             </h2>
-            <a href="{{ route('lecturer.courses.index') }}" wire:navigate class="text-sm text-gray-600 hover:text-gray-900 underline">
+            <a href="{{ route('lecturer.courses.index') }}" wire:navigate class="text-lg text-gray-800 hover:text-gray-900 underline">
                 {{ __('Back to my courses') }}
             </a>
         </div>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if ($showForm)
                 <div class="bg-white shadow-sm sm:rounded-lg p-6">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
 
-                        <p class="text-xs text-gray-500">{{ __('Times are in the platform timezone (:tz).', ['tz' => config('app.timezone')]) }}</p>
+                        <p class="text-sm text-gray-800">{{ __('Times are in the platform timezone (:tz).', ['tz' => config('app.timezone')]) }}</p>
 
                         <div>
                             <x-input-label for="lc_provider" :value="__('Provider')" />
@@ -61,14 +61,14 @@
                         <div>
                             <x-input-label for="lc_meeting_link" :value="__('Student Join Link')" />
                             <x-text-input wire:model="meeting_link" id="lc_meeting_link" class="block mt-1 w-full" type="url" placeholder="https://" />
-                            <p class="text-xs text-gray-500 mt-1">{{ __('Shown to enrolled students shortly before the class starts.') }}</p>
+                            <p class="text-sm text-gray-800 mt-1">{{ __('Shown to enrolled students shortly before the class starts.') }}</p>
                             <x-input-error :messages="$errors->get('meeting_link')" class="mt-2" />
                         </div>
 
                         <div>
                             <x-input-label for="lc_host_link" :value="__('Host Link (optional)')" />
                             <x-text-input wire:model="host_link" id="lc_host_link" class="block mt-1 w-full" type="url" placeholder="https://" />
-                            <p class="text-xs text-gray-500 mt-1">{{ __('Only visible to you. Never shown to students.') }}</p>
+                            <p class="text-sm text-gray-800 mt-1">{{ __('Only visible to you. Never shown to students.') }}</p>
                             <x-input-error :messages="$errors->get('host_link')" class="mt-2" />
                         </div>
 
@@ -85,12 +85,12 @@
             @endif
 
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                <table class="min-w-full divide-y divide-gray-200 text-lg">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2 text-start font-medium text-gray-500">{{ __('Title') }}</th>
-                            <th class="px-4 py-2 text-start font-medium text-gray-500">{{ __('Starts') }}</th>
-                            <th class="px-4 py-2 text-start font-medium text-gray-500">{{ __('Status') }}</th>
+                            <th class="px-4 py-2 text-start font-medium text-gray-800">{{ __('Title') }}</th>
+                            <th class="px-4 py-2 text-start font-medium text-gray-800">{{ __('Starts') }}</th>
+                            <th class="px-4 py-2 text-start font-medium text-gray-800">{{ __('Status') }}</th>
                             <th class="px-4 py-2"></th>
                         </tr>
                     </thead>
@@ -98,13 +98,13 @@
                         @forelse ($liveClasses as $liveClass)
                             <tr wire:key="lc-{{ $liveClass->id }}">
                                 <td class="px-4 py-3 font-medium text-gray-900">{{ $liveClass->title }}</td>
-                                <td class="px-4 py-3 text-gray-600">{{ $liveClass->starts_at->format('Y-m-d H:i') }}</td>
+                                <td class="px-4 py-3 text-gray-800">{{ $liveClass->starts_at->format('Y-m-d H:i') }}</td>
                                 <td class="px-4 py-3">
                                     <span @class([
-                                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium',
                                         'bg-blue-100 text-blue-800' => $liveClass->status === 'scheduled',
                                         'bg-red-100 text-red-800' => $liveClass->status === 'cancelled',
-                                        'bg-gray-100 text-gray-600' => $liveClass->status === 'completed',
+                                        'bg-gray-100 text-gray-800' => $liveClass->status === 'completed',
                                     ])>
                                         {{ ucfirst($liveClass->status) }}
                                     </span>
@@ -134,7 +134,7 @@
                             @endif
                         @empty
                             <tr>
-                                <td colspan="4" class="px-4 py-6 text-center text-gray-500">{{ __('No live classes scheduled yet.') }}</td>
+                                <td colspan="4" class="px-4 py-6 text-center text-gray-800">{{ __('No live classes scheduled yet.') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

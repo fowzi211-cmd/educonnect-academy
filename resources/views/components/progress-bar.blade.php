@@ -1,7 +1,7 @@
 @props(['percent'])
 
 <div>
-    <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
+    <div class="flex items-center justify-between text-xs text-gray-600 mb-1">
         <span>{{ __('Progress') }}</span>
         <span>{{ $percent }}%</span>
     </div>

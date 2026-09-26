@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if ($course)
                 <div class="flex items-center justify-between bg-white shadow-sm sm:rounded-lg p-4">
@@ -20,7 +20,7 @@
                 </div>
 
                 @if ($course->status === \App\Models\Course::STATUS_REVISION_REQUESTED && $course->revision_notes)
-                    <div class="bg-amber-50 rounded-lg p-4 text-sm text-amber-800">
+                    <div class="bg-amber-50 rounded-lg p-4 text-lg text-amber-800">
                         <p class="font-medium">{{ __('Revisions requested:') }}</p>
                         <p class="mt-1 whitespace-pre-line">{{ $course->revision_notes }}</p>
                     </div>
@@ -28,7 +28,7 @@
             @endif
 
             @if ($saved)
-                <div class="rounded-md bg-green-50 px-4 py-3 text-sm text-green-700">
+                <div class="rounded-md bg-green-50 px-4 py-3 text-lg text-green-700">
                     {{ __('Course saved.') }}
                 </div>
             @endif
@@ -97,14 +97,17 @@
                         </div>
                     </div>
 
+                    @php
+                        $platformCurrency = $course?->currency ?? \App\Models\Setting::get('branding.default_currency', config('platform.default_currency'));
+                    @endphp
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <x-input-label for="monthly_price" :value="__('Monthly Price (SAR)')" />
+                            <x-input-label for="monthly_price" :value="__('Monthly Price (:currency)', ['currency' => $platformCurrency])" />
                             <x-text-input wire:model="monthly_price" id="monthly_price" class="block mt-1 w-full" type="number" step="0.01" min="0" placeholder="{{ __('Leave blank if free') }}" />
                             <x-input-error :messages="$errors->get('monthly_price')" class="mt-2" />
                         </div>
                         <div>
-                            <x-input-label for="one_time_price" :value="__('One-time Price (SAR)')" />
+                            <x-input-label for="one_time_price" :value="__('One-time Price (:currency)', ['currency' => $platformCurrency])" />
                             <x-text-input wire:model="one_time_price" id="one_time_price" class="block mt-1 w-full" type="number" step="0.01" min="0" />
                             <x-input-error :messages="$errors->get('one_time_price')" class="mt-2" />
                         </div>
@@ -128,17 +131,17 @@
                         @if ($course?->image_path)
                             <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($course->image_path) }}" alt="" class="h-24 my-2 rounded">
                         @endif
-                        <input wire:model="image" id="image" type="file" accept="image/*" class="block mt-1 w-full text-sm text-gray-600" />
+                        <input wire:model="image" id="image" type="file" accept="image/*" class="block mt-1 w-full text-lg text-gray-800" />
                         <x-input-error :messages="$errors->get('image')" class="mt-2" />
                     </div>
 
                     <label class="flex items-center gap-2">
                         <input wire:model="certificate_available" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
-                        <span class="text-sm text-gray-700">{{ __('Issue a certificate on completion') }}</span>
+                        <span class="text-lg text-gray-800">{{ __('Issue a certificate on completion') }}</span>
                     </label>
 
                     <div class="flex justify-between items-center">
-                        <a href="{{ route('lecturer.courses.index') }}" wire:navigate class="text-sm text-gray-600 hover:text-gray-900 underline">
+                        <a href="{{ route('lecturer.courses.index') }}" wire:navigate class="text-lg text-gray-800 hover:text-gray-900 underline">
                             {{ __('Back to my courses') }}
                         </a>
                         <x-primary-button>{{ __('Save') }}</x-primary-button>

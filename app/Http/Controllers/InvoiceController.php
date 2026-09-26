@@ -12,7 +12,7 @@ class InvoiceController extends Controller
     {
         $user = $request->user();
 
-        abort_unless($invoice->user_id === $user->id || $user->can('manage enrolments'), 403);
+        abort_unless($invoice->user_id === $user->id || $user->can('manage finances'), 403);
 
         return view('invoices.show', [
             'invoice' => $invoice->load('items', 'user', 'transaction.course'),

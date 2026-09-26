@@ -33,8 +33,25 @@ interface PaymentGatewayContract
      * change happens in PaymentService regardless of whether the gateway call
      * succeeds, so this should not throw for a gateway that has no matching
      * remote subscription (e.g. it already lapsed).
+     *
+     * When $immediate is false, access continues until the paid period ends
+     * (spec section 11) — implementations must not stop billing or revoke
+     * access at the gateway right away in that case. A gateway that supports
+     * a native "cancel at period end" should use it; one that doesn't should
+     * leave the remote subscription untouched and rely on
+     * PaymentService::expireLapsedSubscriptions() calling back here with
+     * $immediate=true once the period actually ends.
      */
-    public function cancelSubscription(Subscription $subscription): void;
+    public function cancelSubscription(Subscription $subscription, bool $immediate): void;
+
+    /**
+     * Undo a not-yet-effective scheduled cancellation (cancel_at_period_end)
+     * at the gateway. Only ever called while $immediate was false in the
+     * matching cancelSubscription() call, so there is always still a live
+     * remote subscription to restore (or, for a gateway that left the remote
+     * subscription untouched in that case, nothing to do).
+     */
+    public function resumeSubscription(Subscription $subscription): void;
 
     /**
      * Refund all or part of a succeeded transaction at the gateway. Returns

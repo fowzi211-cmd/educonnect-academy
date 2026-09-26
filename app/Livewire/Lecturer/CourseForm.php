@@ -5,6 +5,7 @@ namespace App\Livewire\Lecturer;
 use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -18,16 +19,27 @@ class CourseForm extends Component
     public ?Course $course = null;
 
     public string $title = '';
+
     public string $short_description = '';
+
     public string $full_description = '';
+
     public ?int $category_id = null;
+
     public string $level = 'beginner';
+
     public string $teaching_language = 'en';
+
     public string $delivery_format = 'recorded';
+
     public ?string $monthly_price = null;
+
     public ?string $one_time_price = null;
+
     public ?int $trial_period_days = null;
+
     public ?int $max_students = null;
+
     public bool $certificate_available = false;
 
     public $image;
@@ -86,7 +98,7 @@ class CourseForm extends Component
         } else {
             $validated['created_by'] = Auth::id();
             $validated['status'] = Course::STATUS_DRAFT;
-            $validated['currency'] = \App\Models\Setting::get('branding.default_currency', 'SAR');
+            $validated['currency'] = Setting::get('branding.default_currency', config('platform.default_currency'));
 
             $this->course = Course::create($validated);
             $this->course->lecturers()->attach(Auth::id(), ['is_primary' => true]);

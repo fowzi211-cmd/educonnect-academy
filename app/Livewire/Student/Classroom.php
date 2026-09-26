@@ -2,10 +2,15 @@
 
 namespace App\Livewire\Student;
 
+use App\Models\AssignmentSubmission;
 use App\Models\Course;
+use App\Models\CourseCompletion;
 use App\Models\Lesson;
+use App\Models\LessonProgress;
 use App\Models\LiveClassAttendance;
+use App\Models\QuizAttempt;
 use App\Models\VideoProgress;
+use App\Services\Assessments\CourseCompletionService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -16,9 +21,10 @@ class Classroom extends Component
     public Course $course;
 
     public string $activeTab = 'content';
+
     public ?int $selectedLessonId = null;
 
-    public function mount(Course $course): void
+    public function mount(Course $course, CourseCompletionService $completion): void
     {
         abort_unless($course->isAccessibleBy(Auth::user()), 403);
 
@@ -26,14 +32,49 @@ class Classroom extends Component
 
         $firstLesson = $this->course->sections->flatMap->lessons->first();
         $this->selectedLessonId = $firstLesson?->id;
+
+        if ($firstLesson) {
+            $this->markLessonOpened($firstLesson);
+        }
+
+        $completion->checkAndRecordCompletion(Auth::user(), $this->course);
     }
 
     public function selectLesson(int $lessonId): void
     {
         $this->selectedLessonId = $lessonId;
+
+        $lesson = $this->course->sections->flatMap->lessons->firstWhere('id', $lessonId);
+
+        if ($lesson) {
+            $this->markLessonOpened($lesson);
+        }
     }
 
-    public function updateProgress(int $videoId, int $watchedSeconds, int $duration): void
+    protected function markLessonOpened(Lesson $lesson): void
+    {
+        $progress = LessonProgress::firstOrNew([
+            'user_id' => Auth::id(),
+            'lesson_id' => $lesson->id,
+        ]);
+
+        if ($progress->exists) {
+            return;
+        }
+
+        $progress->opened_at = now();
+
+        // Reading lessons have no other completion signal, so opening one is
+        // treated as completing it. Video lessons are completed via
+        // VideoProgress instead (90% watched — see updateProgress()).
+        if ($lesson->content_type === Lesson::TYPE_READING) {
+            $progress->completed_at = now();
+        }
+
+        $progress->save();
+    }
+
+    public function updateProgress(int $videoId, int $watchedSeconds, int $duration, CourseCompletionService $completion): void
     {
         $video = $this->course->sections->flatMap->lessons->pluck('video')->filter()->firstWhere('id', $videoId);
 
@@ -56,6 +97,8 @@ class Classroom extends Component
         }
 
         $progress->save();
+
+        $completion->checkAndRecordCompletion(Auth::user(), $this->course);
     }
 
     protected function videoProgressFor(int $videoId): ?VideoProgress
@@ -74,12 +117,39 @@ class Classroom extends Component
             ->get()
             ->keyBy('live_class_id');
 
+        $quizzes = $this->course->quizzes()->where('is_published', true)->get();
+        $latestAttempts = QuizAttempt::where('user_id', Auth::id())
+            ->whereIn('quiz_id', $quizzes->pluck('id'))
+            ->latest('started_at')
+            ->get()
+            ->unique('quiz_id')
+            ->keyBy('quiz_id');
+
+        $assignments = $this->course->assignments()->where('is_published', true)->get();
+        $submissions = AssignmentSubmission::where('user_id', Auth::id())
+            ->whereIn('assignment_id', $assignments->pluck('id'))
+            ->get()
+            ->keyBy('assignment_id');
+
+        $announcements = $this->course->announcements()
+            ->whereNotNull('published_at')
+            ->latest('is_pinned')
+            ->latest('published_at')
+            ->get();
+
         return view('livewire.student.classroom', [
             'selectedLesson' => $selectedLesson,
             'selectedVideoProgress' => $selectedLesson?->video ? $this->videoProgressFor($selectedLesson->video->id) : null,
             'liveClasses' => $this->course->liveClasses()->orderBy('starts_at')->get(),
             'attendance' => $attendance,
             'courseProgress' => $this->course->videoProgressPercentFor(Auth::user()),
+            'quizzes' => $quizzes,
+            'latestAttempts' => $latestAttempts,
+            'assignments' => $assignments,
+            'submissions' => $submissions,
+            'courseCompletion' => CourseCompletion::where('user_id', Auth::id())->where('course_id', $this->course->id)->first(),
+            'certificate' => Auth::user()->certificates()->where('course_id', $this->course->id)->where('status', 'active')->first(),
+            'announcements' => $announcements,
         ]);
     }
 }

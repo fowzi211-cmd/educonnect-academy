@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 @if (auth()->user()->hasRole('lecturer'))
-                    <p class="text-gray-700">{{ __('You are already an approved lecturer on EduConnect Academy.') }}</p>
+                    <p class="text-gray-700">{{ __('You are already an approved lecturer on Dr. Nada Center.') }}</p>
 
                 @elseif ($submitted || ($existingProfile && $existingProfile->status === \App\Models\LecturerProfile::STATUS_PENDING))
                     <h3 class="font-medium text-gray-900">{{ __('Application submitted') }}</h3>

@@ -6,15 +6,15 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="font-medium text-gray-900">{{ $lecturerProfile->user->name }}</h3>
-                        <p class="text-sm text-gray-500">{{ $lecturerProfile->user->email }}</p>
+                        <p class="text-lg text-gray-800">{{ $lecturerProfile->user->email }}</p>
                     </div>
                     <span @class([
-                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium',
                         'bg-amber-100 text-amber-800' => $lecturerProfile->status === 'pending',
                         'bg-green-100 text-green-800' => $lecturerProfile->status === 'approved',
                         'bg-red-100 text-red-800' => $lecturerProfile->status === 'rejected',
@@ -23,32 +23,32 @@
                     </span>
                 </div>
 
-                <dl class="mt-6 space-y-4 text-sm">
+                <dl class="mt-6 space-y-4 text-lg">
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Professional Headline') }}</dt>
-                        <dd class="mt-1 text-gray-600">{{ $lecturerProfile->headline }}</dd>
+                        <dt class="font-medium text-gray-800">{{ __('Professional Headline') }}</dt>
+                        <dd class="mt-1 text-gray-800">{{ $lecturerProfile->headline }}</dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Biography') }}</dt>
-                        <dd class="mt-1 text-gray-600 whitespace-pre-line">{{ $lecturerProfile->biography }}</dd>
+                        <dt class="font-medium text-gray-800">{{ __('Biography') }}</dt>
+                        <dd class="mt-1 text-gray-800 whitespace-pre-line">{{ $lecturerProfile->biography }}</dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Qualifications and Experience') }}</dt>
-                        <dd class="mt-1 text-gray-600 whitespace-pre-line">{{ $lecturerProfile->qualifications }}</dd>
+                        <dt class="font-medium text-gray-800">{{ __('Qualifications and Experience') }}</dt>
+                        <dd class="mt-1 text-gray-800 whitespace-pre-line">{{ $lecturerProfile->qualifications }}</dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Areas of Expertise') }}</dt>
-                        <dd class="mt-1 text-gray-600">{{ $lecturerProfile->areas_of_expertise }}</dd>
+                        <dt class="font-medium text-gray-800">{{ __('Areas of Expertise') }}</dt>
+                        <dd class="mt-1 text-gray-800">{{ $lecturerProfile->areas_of_expertise }}</dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-gray-700">{{ __('Verification Documents') }}</dt>
+                        <dt class="font-medium text-gray-800">{{ __('Verification Documents') }}</dt>
                         <dd class="mt-1">
                             @forelse ($lecturerProfile->documents as $document)
                                 <a href="{{ route('admin.lecturer-documents.download', $document) }}" class="block text-indigo-600 hover:text-indigo-800 underline">
                                     {{ $document->original_name }}
                                 </a>
                             @empty
-                                <span class="text-gray-500">{{ __('None uploaded.') }}</span>
+                                <span class="text-gray-800">{{ __('None uploaded.') }}</span>
                             @endforelse
                         </dd>
                     </div>
@@ -78,11 +78,11 @@
             @elseif ($lecturerProfile->status === 'rejected' && $lecturerProfile->rejection_reason)
                 <div class="bg-white shadow-sm sm:rounded-lg p-6">
                     <h4 class="font-medium text-gray-900">{{ __('Rejection Reason') }}</h4>
-                    <p class="mt-1 text-sm text-gray-600">{{ $lecturerProfile->rejection_reason }}</p>
+                    <p class="mt-1 text-lg text-gray-800">{{ $lecturerProfile->rejection_reason }}</p>
                 </div>
             @endif
 
-            <a href="{{ route('admin.lecturer-applications.index') }}" wire:navigate class="text-sm text-gray-600 hover:text-gray-900 underline">
+            <a href="{{ route('admin.lecturer-applications.index') }}" wire:navigate class="text-lg text-gray-800 hover:text-gray-900 underline">
                 {{ __('Back to applications') }}
             </a>
         </div>

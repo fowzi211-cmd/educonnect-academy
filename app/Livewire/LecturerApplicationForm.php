@@ -4,7 +4,10 @@ namespace App\Livewire;
 
 use App\Models\LecturerDocument;
 use App\Models\LecturerProfile;
+use App\Models\User;
+use App\Notifications\LecturerApplicationSubmitted;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -15,11 +18,15 @@ class LecturerApplicationForm extends Component
     use WithFileUploads;
 
     public string $headline = '';
+
     public string $biography = '';
+
     public string $qualifications = '';
+
     public string $areas_of_expertise = '';
 
     public $photo;
+
     public $documents = [];
 
     public ?LecturerProfile $existingProfile = null;
@@ -81,6 +88,11 @@ class LecturerApplicationForm extends Component
 
         $this->existingProfile = $profile->fresh();
         $this->submitted = true;
+
+        Notification::send(
+            User::permission('manage lecturer applications')->get(),
+            new LecturerApplicationSubmitted($this->existingProfile),
+        );
     }
 
     public function render()

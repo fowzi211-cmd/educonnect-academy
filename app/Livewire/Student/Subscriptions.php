@@ -12,7 +12,10 @@ use Livewire\Component;
 class Subscriptions extends Component
 {
     public ?int $cancellingId = null;
+
     public string $cancelReason = '';
+
+    public ?int $editingId = null;
 
     public function startCancel(int $id): void
     {
@@ -31,6 +34,40 @@ class Subscriptions extends Component
         $payments->cancelSubscription($subscription, $this->cancelReason);
 
         $this->cancellingId = null;
+    }
+
+    public function toggleEdit(int $id): void
+    {
+        $this->editingId = $this->editingId === $id ? null : $id;
+        $this->resetErrorBag('resume');
+    }
+
+    public function resumeSubscription(int $id, PaymentService $payments): void
+    {
+        $subscription = Auth::user()->subscriptions()->findOrFail($id);
+
+        try {
+            $payments->resumeSubscription($subscription);
+        } catch (\RuntimeException $e) {
+            $this->addError('resume', $e->getMessage());
+
+            return;
+        }
+
+        $this->editingId = null;
+    }
+
+    public function retryPayment(int $id, PaymentService $payments): void
+    {
+        $subscription = Auth::user()->subscriptions()->findOrFail($id);
+
+        abort_unless(in_array($subscription->status, [Subscription::STATUS_PAYMENT_FAILED, Subscription::STATUS_GRACE_PERIOD], true), 403);
+
+        if ($subscription->status === Subscription::STATUS_GRACE_PERIOD) {
+            $payments->abandonGracePeriod($subscription);
+        }
+
+        $this->redirect(route('checkout.show', $subscription->course), navigate: false);
     }
 
     public function render()

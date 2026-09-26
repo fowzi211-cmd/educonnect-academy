@@ -20,6 +20,8 @@ class PaymentGatewayManager
     protected array $drivers = [
         'test' => TestGateway::class,
         'stripe' => StripeGateway::class,
+        'paypal' => PayPalGateway::class,
+        'bank_transfer' => BankTransferGateway::class,
     ];
 
     public function __construct(protected Container $container) {}
@@ -54,5 +56,18 @@ class PaymentGatewayManager
     public function availableDrivers(): array
     {
         return array_keys($this->drivers);
+    }
+
+    /**
+     * Drivers eligible to be the single "active" gateway used for the
+     * automatic/online checkout flow. Bank transfer is always available in
+     * parallel as a manual payment method, never a mutually-exclusive
+     * "active gateway" choice, so it is excluded here.
+     *
+     * @return array<int, string>
+     */
+    public function onlineDrivers(): array
+    {
+        return array_values(array_diff($this->availableDrivers(), ['bank_transfer']));
     }
 }

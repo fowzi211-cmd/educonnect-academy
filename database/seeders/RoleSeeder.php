@@ -37,6 +37,13 @@ class RoleSeeder extends Seeder
         'review courses',
         'publish courses',
         'manage enrolments',
+        'manage finances',
+        'manage certificates',
+        'manage lecturer commissions',
+        'manage support tickets',
+        'view reports',
+        'manage content',
+        'view audit logs',
     ];
 
     public function run(): void
@@ -57,15 +64,35 @@ class RoleSeeder extends Seeder
             'review courses',
         ]);
 
+        Role::findByName('finance_officer')->givePermissionTo([
+            'access admin panel',
+            'manage finances',
+            'manage lecturer commissions',
+            'view reports',
+        ]);
+
+        Role::findByName('support_officer')->givePermissionTo([
+            'access admin panel',
+            'manage support tickets',
+        ]);
+
         Role::findByName('administrator')->givePermissionTo([
             'access admin panel',
             'manage users',
+            'manage roles',
             'manage settings',
             'manage lecturer applications',
             'manage categories',
             'review courses',
             'publish courses',
             'manage enrolments',
+            'manage finances',
+            'manage certificates',
+            'manage lecturer commissions',
+            'manage support tickets',
+            'view reports',
+            'manage content',
+            'view audit logs',
         ]);
 
         Role::findByName('super_administrator')->givePermissionTo(self::PERMISSIONS);

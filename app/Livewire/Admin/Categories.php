@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\AuditLog;
 use App\Models\Category;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -11,11 +12,25 @@ use Livewire\Component;
 class Categories extends Component
 {
     public string $name = '';
+
     public string $description = '';
 
     public ?int $editingId = null;
+
     public string $editingName = '';
+
     public string $editingDescription = '';
+
+    public bool $showBulkAdd = false;
+
+    public string $bulkAddText = '';
+
+    public int $bulkAddCreated = 0;
+
+    /** @var array<int, array{line: string, error: string}> */
+    public array $bulkAddFailures = [];
+
+    protected const BULK_ADD_MAX_ROWS = 200;
 
     public function create(): void
     {
@@ -29,6 +44,72 @@ class Categories extends Component
         AuditLog::record('category.created', subject: $category, new: $validated);
 
         $this->reset(['name', 'description']);
+    }
+
+    public function toggleBulkAdd(): void
+    {
+        $this->showBulkAdd = ! $this->showBulkAdd;
+        $this->reset(['bulkAddText', 'bulkAddFailures', 'bulkAddCreated']);
+    }
+
+    /**
+     * One category name per line — an optional " | description" suffix is
+     * supported. Each row is validated independently so a single duplicate
+     * or over-length name doesn't abort the rest of the paste.
+     */
+    public function runBulkAdd(): void
+    {
+        $this->bulkAddFailures = [];
+        $this->bulkAddCreated = 0;
+
+        $lines = array_values(array_filter(array_map('trim', explode("\n", $this->bulkAddText)), fn ($line) => $line !== ''));
+
+        if (empty($lines)) {
+            $this->addError('bulkAddText', __('Paste at least one row first.'));
+
+            return;
+        }
+
+        if (count($lines) > self::BULK_ADD_MAX_ROWS) {
+            $this->addError('bulkAddText', __('Import up to :max rows at a time — split larger lists into batches.', ['max' => self::BULK_ADD_MAX_ROWS]));
+
+            return;
+        }
+
+        $seenNames = [];
+
+        foreach ($lines as $line) {
+            [$name, $description] = array_pad(array_map('trim', explode('|', $line, 2)), 2, null);
+            $nameKey = mb_strtolower($name);
+
+            $rowValidator = Validator::make(
+                ['name' => $name, 'description' => $description],
+                [
+                    'name' => ['required', 'string', 'max:255', 'unique:categories,name'],
+                    'description' => ['nullable', 'string', 'max:1000'],
+                ],
+            );
+
+            if (in_array($nameKey, $seenNames, true)) {
+                $this->bulkAddFailures[] = ['line' => $line, 'error' => __('Duplicate name within this import.')];
+
+                continue;
+            }
+
+            if ($rowValidator->fails()) {
+                $this->bulkAddFailures[] = ['line' => $line, 'error' => $rowValidator->errors()->first()];
+
+                continue;
+            }
+
+            $category = Category::create(['name' => $name, 'description' => $description ?: null]);
+            AuditLog::record('category.created', subject: $category, new: ['name' => $name, 'description' => $description]);
+
+            $seenNames[] = $nameKey;
+            $this->bulkAddCreated++;
+        }
+
+        $this->bulkAddText = '';
     }
 
     public function edit(int $id): void

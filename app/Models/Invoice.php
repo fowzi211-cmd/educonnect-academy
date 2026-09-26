@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Invoice extends Model
 {
     public const STATUS_PAID = 'paid';
+
     public const STATUS_VOID = 'void';
+
     public const STATUS_REFUNDED = 'refunded';
 
     protected $fillable = [
