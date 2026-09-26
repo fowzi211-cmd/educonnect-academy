@@ -10,12 +10,25 @@ APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export DEBIAN_FRONTEND=noninteractive
 
 echo "==> Installing system packages"
+# A previous failed run may have left an unusable PHP source behind.
+rm -f /etc/apt/sources.list.d/ondrej-*
 apt-get update -y
 apt-get install -y software-properties-common curl git unzip ufw nginx sqlite3 certbot python3-certbot-nginx
-add-apt-repository -y ppa:ondrej/php
-apt-get update -y
-apt-get install -y php8.4-cli php8.4-fpm php8.4-mbstring php8.4-xml php8.4-curl php8.4-zip \
-    php8.4-sqlite3 php8.4-intl php8.4-bcmath php8.4-gd
+
+CODENAME="$(lsb_release -cs)"
+if curl -fsI "https://ppa.launchpadcontent.net/ondrej/php/ubuntu/dists/${CODENAME}/Release" >/dev/null 2>&1; then
+    echo "Using the ondrej PPA (PHP 8.4) for ${CODENAME}"
+    add-apt-repository -y ppa:ondrej/php
+    apt-get update -y
+    PKG_PREFIX="php8.4"
+else
+    echo "The ondrej PPA does not support ${CODENAME}; using the distribution PHP"
+    PKG_PREFIX="php"
+fi
+apt-get install -y ${PKG_PREFIX}-cli ${PKG_PREFIX}-fpm ${PKG_PREFIX}-mbstring ${PKG_PREFIX}-xml \
+    ${PKG_PREFIX}-curl ${PKG_PREFIX}-zip ${PKG_PREFIX}-sqlite3 ${PKG_PREFIX}-intl ${PKG_PREFIX}-bcmath ${PKG_PREFIX}-gd
+PHPV="$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')"
+echo "PHP version in use: ${PHPV}"
 
 if ! command -v composer >/dev/null; then
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -26,13 +39,13 @@ if ! command -v node >/dev/null; then
 fi
 
 echo "==> PHP upload limits (lesson videos)"
-cat > /etc/php/8.4/fpm/conf.d/99-app.ini <<'EOF'
+cat > /etc/php/${PHPV}/fpm/conf.d/99-app.ini <<'EOF'
 upload_max_filesize = 600M
 post_max_size = 610M
 max_execution_time = 300
 memory_limit = 512M
 EOF
-systemctl restart php8.4-fpm
+systemctl restart php${PHPV}-fpm
 
 echo "==> Firewall"
 ufw allow OpenSSH
@@ -95,7 +108,7 @@ server {
         try_files \$uri \$uri/ /index.php?\$query_string;
     }
     location ~ \.php\$ {
-        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_pass unix:/run/php/php${PHPV}-fpm.sock;
         fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
         include fastcgi_params;
         fastcgi_read_timeout 300;

@@ -14,5 +14,6 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 chown -R www-data:www-data "$APP_DIR"
-systemctl reload php8.4-fpm
+PHPV="$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')"
+systemctl reload "php${PHPV}-fpm"
 echo "Deployed."
