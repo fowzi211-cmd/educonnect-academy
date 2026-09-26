@@ -1125,5 +1125,9 @@
     "Certificates on completion": "شهادات عند الإتمام",
     "Finish a course's assessments and you can earn a certificate — verifiable online by its certificate number.": "أكمل تقييمات الدورة لتحصل على شهادة — يمكن التحقق منها عبر الإنترنت برقمها.",
     "See it from the inside": "جرّبها من الداخل",
-    "Register free and try a quiz in one of our courses.": "سجّل مجاناً وجرّب اختباراً في إحدى دوراتنا."
+    "Register free and try a quiz in one of our courses.": "سجّل مجاناً وجرّب اختباراً في إحدى دوراتنا.",
+    "New Password (optional)": "كلمة مرور جديدة (اختياري)",
+    "Password (optional)": "كلمة المرور (اختياري)",
+    "Leave blank to keep the current password. Changing it signs the user out everywhere.": "اتركها فارغة للإبقاء على كلمة المرور الحالية. تغييرها يسجّل خروج المستخدم من كل الأجهزة.",
+    "Leave blank to email them a link to set their own password.": "اتركها فارغة لإرسال رابط بالبريد ليعيّن المستخدم كلمة مروره بنفسه."
 }

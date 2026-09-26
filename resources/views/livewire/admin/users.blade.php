@@ -57,6 +57,16 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="lg:col-span-2">
+                            <x-input-label for="newPassword" :value="__('Password (optional)')" />
+                            <x-password-input wire:model="newPassword" id="newPassword" class="mt-1 block w-full" autocomplete="new-password" />
+                            <x-input-error :messages="$errors->get('newPassword')" class="mt-1" />
+                            <p class="mt-1 text-sm text-gray-600">{{ __('Leave blank to email them a link to set their own password.') }}</p>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <x-input-label for="newPassword_confirmation" :value="__('Confirm Password')" />
+                            <x-password-input wire:model="newPassword_confirmation" id="newPassword_confirmation" class="mt-1 block w-full" autocomplete="new-password" />
+                        </div>
                         <div class="lg:col-span-4">
                             <x-primary-button>{{ __('Create Account') }}</x-primary-button>
                         </div>
@@ -183,6 +193,16 @@
                                                         <option value="{{ $code }}">{{ $locale['native'] }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                            <div>
+                                                <x-input-label for="editingPassword" :value="__('New Password (optional)')" />
+                                                <x-password-input wire:model="editingPassword" id="editingPassword" class="mt-1 block w-full" autocomplete="new-password" />
+                                                <x-input-error :messages="$errors->get('editingPassword')" class="mt-1" />
+                                                <p class="mt-1 text-sm text-gray-600">{{ __('Leave blank to keep the current password. Changing it signs the user out everywhere.') }}</p>
+                                            </div>
+                                            <div>
+                                                <x-input-label for="editingPassword_confirmation" :value="__('Confirm Password')" />
+                                                <x-password-input wire:model="editingPassword_confirmation" id="editingPassword_confirmation" class="mt-1 block w-full" autocomplete="new-password" />
                                             </div>
                                             <div class="flex gap-2 self-end">
                                                 <x-primary-button>{{ __('Save') }}</x-primary-button>

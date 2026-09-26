@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -22,9 +23,11 @@ use Spatie\Permission\Models\Role;
  * assign or change their role, bypassing the normal self-registration and
  * lecturer-application flows when an account needs to exist right away.
  *
- * New accounts get a random, never-shared password and are sent Laravel's
- * standard "reset your password" email to set their own — the admin never
- * handles a plaintext password. Only a super_administrator may assign the
+ * New accounts default to a random, never-shared password and are sent
+ * Laravel's standard "reset your password" email to set their own. An admin
+ * may instead type a password when creating or editing an account (for users
+ * whose email can't receive the link); changing one signs that user out
+ * everywhere. Only a super_administrator may assign the
  * super_administrator role, or change the role of an existing one, so a
  * regular administrator can't escalate or demote the platform's top tier.
  */
@@ -46,6 +49,10 @@ class Users extends Component
 
     public string $preferredLanguage = 'en';
 
+    public string $newPassword = '';
+
+    public string $newPassword_confirmation = '';
+
     public ?int $changingRoleId = null;
 
     public string $newRole = '';
@@ -57,6 +64,10 @@ class Users extends Component
     public string $editingEmail = '';
 
     public string $editingPreferredLanguage = 'en';
+
+    public string $editingPassword = '';
+
+    public string $editingPassword_confirmation = '';
 
     public bool $showBulkImport = false;
 
@@ -108,11 +119,18 @@ class Users extends Component
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'role' => ['required', 'string', Rule::in($this->assignableRoles())],
             'preferredLanguage' => ['required', 'string', 'in:'.implode(',', array_keys(config('platform.locales')))],
+            'newPassword' => ['nullable', 'string', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
         ]);
 
-        $this->createOneUser($validated['name'], $validated['email'], $validated['role'], $validated['preferredLanguage']);
+        $this->createOneUser(
+            $validated['name'],
+            $validated['email'],
+            $validated['role'],
+            $validated['preferredLanguage'],
+            $validated['newPassword'] ?: null,
+        );
 
-        $this->reset(['name', 'email', 'preferredLanguage']);
+        $this->reset(['name', 'email', 'preferredLanguage', 'newPassword', 'newPassword_confirmation']);
         $this->role = 'student';
         $this->preferredLanguage = 'en';
     }
@@ -123,12 +141,12 @@ class Users extends Component
      * unshared password, pre-verified email, profile row, role assignment,
      * audit trail, and the same "set your own password" reset email.
      */
-    protected function createOneUser(string $name, string $email, string $role, string $preferredLanguage): User
+    protected function createOneUser(string $name, string $email, string $role, string $preferredLanguage, ?string $password = null): User
     {
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => Hash::make(Str::password(32)),
+            'password' => Hash::make($password ?? Str::password(32)),
         ]);
 
         // email_verified_at is intentionally outside the model's #[Fillable(...)]
@@ -140,9 +158,12 @@ class Users extends Component
 
         $user->assignRole($role);
 
-        AuditLog::record('user.created', subject: $user, new: ['email' => $user->email, 'role' => $role]);
+        AuditLog::record('user.created', subject: $user, new: ['email' => $user->email, 'role' => $role, 'password_set_by_admin' => $password !== null]);
 
-        Password::sendResetLink(['email' => $user->email]);
+        // An admin-chosen password replaces the "set your own" email flow.
+        if ($password === null) {
+            Password::sendResetLink(['email' => $user->email]);
+        }
 
         return $user;
     }
@@ -259,7 +280,8 @@ class Users extends Component
 
         $this->guardTarget($user);
 
-        $this->reset(['changingRoleId', 'newRole']);
+        $this->reset(['changingRoleId', 'newRole', 'editingPassword', 'editingPassword_confirmation']);
+        $this->resetErrorBag();
         $this->editingId = $id;
         $this->editingName = $user->name;
         $this->editingEmail = $user->email;
@@ -268,8 +290,9 @@ class Users extends Component
 
     public function cancelEdit(): void
     {
-        $this->reset(['editingId', 'editingName', 'editingEmail']);
+        $this->reset(['editingId', 'editingName', 'editingEmail', 'editingPassword', 'editingPassword_confirmation']);
         $this->editingPreferredLanguage = 'en';
+        $this->resetErrorBag();
     }
 
     public function confirmEdit(): void
@@ -282,6 +305,7 @@ class Users extends Component
             'editingName' => ['required', 'string', 'max:255'],
             'editingEmail' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'editingPreferredLanguage' => ['required', 'string', 'in:'.implode(',', array_keys(config('platform.locales')))],
+            'editingPassword' => ['nullable', 'string', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
         ]);
 
         $old = ['name' => $user->name, 'email' => $user->email];
@@ -294,6 +318,20 @@ class Users extends Component
         $user->profile()->updateOrCreate([], ['preferred_language' => $validated['editingPreferredLanguage']]);
 
         AuditLog::record('user.updated', subject: $user, old: $old, new: ['name' => $user->name, 'email' => $user->email]);
+
+        if (! empty($validated['editingPassword'])) {
+            $user->forceFill([
+                'password' => Hash::make($validated['editingPassword']),
+                'remember_token' => Str::random(60),
+            ])->save();
+
+            // Sign the user out everywhere so the old password stops working immediately.
+            if (config('session.driver') === 'database') {
+                DB::table(config('session.table', 'sessions'))->where('user_id', $user->id)->delete();
+            }
+
+            AuditLog::record('user.password_changed', subject: $user);
+        }
 
         $this->cancelEdit();
     }
