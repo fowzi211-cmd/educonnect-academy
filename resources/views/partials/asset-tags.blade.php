@@ -1,3 +1,7 @@
+{{-- Tab icon, generated from the logo emblem (public/images/logo.png). --}}
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}">
 @if (file_exists(public_path('build/manifest.json')))
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 @else
