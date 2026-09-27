@@ -19,7 +19,6 @@
     <body class="font-sans text-gray-900 antialiased">
         @php
             $platformName = \App\Models\Setting::get('branding.platform_name', config('app.name'));
-            $logoPath = \App\Models\Setting::get('branding.logo_path');
         @endphp
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative overflow-hidden bg-gray-50">
             <div class="pointer-events-none absolute inset-0 bg-brand-gradient opacity-90"></div>
@@ -31,11 +30,7 @@
 
             <div class="relative z-10">
                 <a href="/" wire:navigate class="flex items-center gap-2">
-                    @if ($logoPath)
-                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($logoPath) }}" alt="{{ $platformName }}" class="w-28 h-28 object-contain drop-shadow-lg">
-                    @else
-                        <x-application-logo class="w-16 h-16 drop-shadow-lg" />
-                    @endif
+                    <img src="{{ \App\Models\Setting::logoUrl() }}" alt="{{ $platformName }}" class="w-28 h-28 object-contain drop-shadow-lg">
                 </a>
             </div>
 

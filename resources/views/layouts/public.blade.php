@@ -29,11 +29,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
                         <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2.5 font-bold text-lg text-gray-900 shrink-0">
-                            @if ($logo = \App\Models\Setting::get('branding.logo_path'))
-                                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($logo) }}" alt="{{ $platformName }}" class="h-12 w-auto">
-                            @else
-                                <x-application-logo class="h-8 w-8 shrink-0" />
-                            @endif
+                            <img src="{{ \App\Models\Setting::logoUrl() }}" alt="{{ $platformName }}" class="h-12 w-auto">
                             <span class="hidden sm:inline">{{ $platformName }}</span>
                         </a>
 
@@ -95,11 +91,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
                     <div class="lg:col-span-2">
                         <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-2.5 font-bold text-lg text-white">
-                            @if ($logo)
-                                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($logo) }}" alt="{{ $platformName }}" class="h-11 w-auto object-contain">
-                            @else
-                                <x-application-logo class="h-8 w-8 shrink-0" />
-                            @endif
+                            <img src="{{ \App\Models\Setting::logoUrl() }}" alt="{{ $platformName }}" class="h-11 w-auto object-contain">
                             {{ $platformName }}
                         </a>
                         <p class="mt-3 text-sm text-gray-400 max-w-sm">{{ __('Live and recorded courses connecting students with lecturers, built for a bilingual Arabic/English audience.') }}</p>

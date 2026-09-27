@@ -23,11 +23,7 @@ new class extends Component
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
                 <a href="{{ route('dashboard') }}" wire:navigate>
-                    @if ($logoPath = \App\Models\Setting::get('branding.logo_path'))
-                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($logoPath) }}" alt="{{ \App\Models\Setting::get('branding.platform_name', config('app.name')) }}" class="block h-12 w-auto object-contain">
-                    @else
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    @endif
+                    <img src="{{ \App\Models\Setting::logoUrl() }}" alt="{{ \App\Models\Setting::get('branding.platform_name', config('app.name')) }}" class="block h-12 w-auto object-contain">
                 </a>
             </div>
 
