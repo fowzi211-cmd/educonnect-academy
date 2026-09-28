@@ -8,3 +8,10 @@ window.addEventListener('unhandledrejection', (event) => {
 });
 
 import './protected-content';
+
+// Arabic UI font, bundled with the app (no outside font service). Only the Arabic
+// glyphs are included; Latin text keeps using Figtree.
+import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
+import '@fontsource/ibm-plex-sans-arabic/arabic-700.css';

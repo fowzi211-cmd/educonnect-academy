@@ -25,6 +25,35 @@
 }
 
 /*
+ * Arabic typography (applies to every page: they all share this stylesheet and
+ * <html dir="rtl"> is set by the layouts). Arabic needs a purpose-built face,
+ * looser line spacing, and no letter-spacing: tracking breaks the joined letters
+ * and the tight leading utilities make the text look crowded.
+ */
+html[dir="rtl"] body,
+html[dir="rtl"] .font-sans {
+    font-family: 'IBM Plex Sans Arabic', 'Figtree', ui-sans-serif, system-ui, 'Segoe UI', Tahoma, sans-serif;
+    line-height: 1.75;
+}
+html[dir="rtl"] [class*="tracking-"] {
+    letter-spacing: normal;
+}
+html[dir="rtl"] .leading-tight { line-height: 1.55; }
+html[dir="rtl"] .leading-snug { line-height: 1.65; }
+html[dir="rtl"] .leading-none { line-height: 1.4; }
+html[dir="rtl"] .text-xs { font-size: 0.8125rem; line-height: 1.6; }
+html[dir="rtl"] .text-sm { font-size: 0.9375rem; line-height: 1.7; }
+html[dir="rtl"] .text-base { line-height: 1.75; }
+html[dir="rtl"] .text-lg { line-height: 1.8; }
+html[dir="rtl"] .text-xl { line-height: 1.65; }
+html[dir="rtl"] .text-2xl,
+html[dir="rtl"] .text-3xl { line-height: 1.5; }
+html[dir="rtl"] .text-4xl,
+html[dir="rtl"] .text-5xl,
+html[dir="rtl"] .text-6xl { line-height: 1.4; }
+html[dir="rtl"] .uppercase { text-transform: none; }
+
+/*
  * Brand color custom properties, set inline per-request from the admin's
  * branding settings (see layouts/public.blade.php, layouts/app.blade.php,
  * layouts/guest.blade.php). Tailwind's palette is statically compiled, so a
