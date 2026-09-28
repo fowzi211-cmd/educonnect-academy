@@ -109,9 +109,9 @@ new class extends Component
                 </x-nav-link>
             @endif
 
-            @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
+            @if (auth()->user()->lecturerProfile?->status !== \App\Models\LecturerProfile::STATUS_APPROVED)
                 <x-nav-link :href="route('lecturer-application')" :active="request()->routeIs('lecturer-application')" wire:navigate>
-                    {{ __('Become a Lecturer') }}
+                    {{ auth()->user()->can('manage own courses') ? __('Teaching Profile') : __('Become a Lecturer') }}
                 </x-nav-link>
             @endif
 
@@ -239,9 +239,9 @@ new class extends Component
                 </x-responsive-nav-link>
             @endif
 
-            @if (! auth()->user()->hasAnyRole(['lecturer', 'administrator', 'super_administrator']))
+            @if (auth()->user()->lecturerProfile?->status !== \App\Models\LecturerProfile::STATUS_APPROVED)
                 <x-responsive-nav-link :href="route('lecturer-application')" :active="request()->routeIs('lecturer-application')" wire:navigate>
-                    {{ __('Become a Lecturer') }}
+                    {{ auth()->user()->can('manage own courses') ? __('Teaching Profile') : __('Become a Lecturer') }}
                 </x-responsive-nav-link>
             @endif
 

@@ -9,12 +9,20 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
-                @if (auth()->user()->hasRole('lecturer'))
-                    <p class="text-gray-700">{{ __('You are already an approved lecturer on Dr. Nada Center.') }}</p>
+                @if ($existingProfile && $existingProfile->status === \App\Models\LecturerProfile::STATUS_APPROVED)
+                    <h3 class="font-medium text-gray-900">{{ __('Your teaching profile is live') }}</h3>
+                    <p class="mt-2 text-gray-700">{{ __('You are an approved lecturer on Dr. Nada Center.') }}</p>
+                    <a href="{{ route('lecturers.show', auth()->user()) }}" class="mt-3 inline-block underline text-indigo-600" wire:navigate>{{ __('View my public profile') }}</a>
 
                 @elseif ($submitted || ($existingProfile && $existingProfile->status === \App\Models\LecturerProfile::STATUS_PENDING))
                     <h3 class="font-medium text-gray-900">{{ __('Application submitted') }}</h3>
                     <p class="mt-2 text-sm text-gray-600">{{ __('Thanks for applying. An administrator will review your application and you will be notified of the decision.') }}</p>
+                    @can('manage lecturer applications')
+                        <p class="mt-2 text-sm text-gray-600">
+                            {{ __('As an administrator you can review it yourself:') }}
+                            <a href="{{ route('admin.lecturer-applications.index') }}" class="underline text-indigo-600" wire:navigate>{{ __('Lecturer Applications') }}</a>
+                        </p>
+                    @endcan
 
                 @else
                     @if ($existingProfile && $existingProfile->status === \App\Models\LecturerProfile::STATUS_REJECTED)
