@@ -46,6 +46,8 @@ class CourseForm extends Component
 
     public bool $saved = false;
 
+    public bool $published = false;
+
     public function mount(?Course $course = null): void
     {
         if ($course && $course->exists) {
@@ -126,6 +128,36 @@ class CourseForm extends Component
         ]);
 
         AuditLog::record('course.submitted_for_review', subject: $this->course, old: $old, new: ['status' => Course::STATUS_UNDER_REVIEW]);
+    }
+
+    /**
+     * Publishers (admins with the "publish courses" permission) can skip the
+     * submit -> approve -> publish chain for a course they are already allowed
+     * to edit; the decision is still recorded in the audit log.
+     */
+    public function publishNow(): void
+    {
+        abort_unless($this->course && Auth::user()->can('publish courses'), 403);
+        abort_unless($this->course->isEditableBy(Auth::user()), 403);
+        abort_unless(in_array($this->course->status, [
+            Course::STATUS_DRAFT,
+            Course::STATUS_UNDER_REVIEW,
+            Course::STATUS_REVISION_REQUESTED,
+            Course::STATUS_APPROVED,
+            Course::STATUS_UNPUBLISHED,
+        ], true), 403);
+
+        $old = ['status' => $this->course->status];
+
+        $this->course->update([
+            'status' => Course::STATUS_PUBLISHED,
+            'published_at' => now(),
+            'revision_notes' => null,
+        ]);
+
+        AuditLog::record('course.published', subject: $this->course, old: $old, new: ['status' => Course::STATUS_PUBLISHED], reason: 'Published directly from the course form');
+
+        $this->published = true;
     }
 
     public function render()

@@ -1136,5 +1136,9 @@
     "Content is hidden while this window is not active. Click here to continue.": "المحتوى مخفي أثناء عدم نشاط هذه النافذة. اضغط هنا للمتابعة.",
     "Loading document…": "جارٍ تحميل المستند…",
     "This document could not be displayed.": "تعذّر عرض هذا المستند.",
-    "This file type cannot be viewed on screen. Ask your lecturer to upload it as a PDF.": "لا يمكن عرض هذا النوع من الملفات على الشاشة. اطلب من المحاضر رفعه بصيغة PDF."
+    "This file type cannot be viewed on screen. Ask your lecturer to upload it as a PDF.": "لا يمكن عرض هذا النوع من الملفات على الشاشة. اطلب من المحاضر رفعه بصيغة PDF.",
+    "Publish Now": "نشر الآن",
+    "Publish this course now? It will appear on the site immediately, without a review step.": "هل تريد نشر هذه الدورة الآن؟ ستظهر على الموقع فوراً دون خطوة مراجعة.",
+    "Course published. It is now visible on the site.": "تم نشر الدورة، وهي ظاهرة الآن على الموقع.",
+    "View public page": "عرض الصفحة العامة"
 }

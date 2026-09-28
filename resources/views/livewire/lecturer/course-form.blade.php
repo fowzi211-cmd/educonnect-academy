@@ -12,12 +12,35 @@
                 <div class="flex items-center justify-between bg-white shadow-sm sm:rounded-lg p-4">
                     <x-course-status-badge :status="$course->status" />
 
-                    @if (in_array($course->status, [\App\Models\Course::STATUS_DRAFT, \App\Models\Course::STATUS_REVISION_REQUESTED]))
-                        <x-primary-button wire:click="submitForReview" wire:confirm="{{ __('Submit this course for review? You will not be able to edit it while it is under review.') }}">
-                            {{ __('Submit for Review') }}
-                        </x-primary-button>
-                    @endif
+                    <div class="flex items-center gap-2">
+                        @can('publish courses')
+                            @if (in_array($course->status, [
+                                \App\Models\Course::STATUS_DRAFT,
+                                \App\Models\Course::STATUS_UNDER_REVIEW,
+                                \App\Models\Course::STATUS_REVISION_REQUESTED,
+                                \App\Models\Course::STATUS_APPROVED,
+                                \App\Models\Course::STATUS_UNPUBLISHED,
+                            ]))
+                                <x-primary-button type="button" wire:click="publishNow" wire:confirm="{{ __('Publish this course now? It will appear on the site immediately, without a review step.') }}">
+                                    {{ __('Publish Now') }}
+                                </x-primary-button>
+                            @endif
+                        @endcan
+
+                        @if (in_array($course->status, [\App\Models\Course::STATUS_DRAFT, \App\Models\Course::STATUS_REVISION_REQUESTED]))
+                            <x-primary-button type="button" wire:click="submitForReview" wire:confirm="{{ __('Submit this course for review? You will not be able to edit it while it is under review.') }}">
+                                {{ __('Submit for Review') }}
+                            </x-primary-button>
+                        @endif
+                    </div>
                 </div>
+
+                @if ($published)
+                    <div class="rounded-md bg-green-50 px-4 py-3 text-lg text-green-700">
+                        {{ __('Course published. It is now visible on the site.') }}
+                        <a href="{{ route('courses.show', $course->slug) }}" class="underline" target="_blank">{{ __('View public page') }}</a>
+                    </div>
+                @endif
 
                 @if ($course->status === \App\Models\Course::STATUS_REVISION_REQUESTED && $course->revision_notes)
                     <div class="bg-amber-50 rounded-lg p-4 text-lg text-amber-800">
