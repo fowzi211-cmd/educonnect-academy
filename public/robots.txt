@@ -1,2 +1,14 @@
 User-agent: *
-Disallow:
+# Account and staff areas need a login; there is nothing for search engines to index.
+Disallow: /admin
+Disallow: /lecturer/
+Disallow: /lecturer-application
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /my-
+Disallow: /checkout
+Disallow: /support-tickets
+Disallow: /quizzes/
+Disallow: /assignments/
+Disallow: /videos/
+Disallow: /lesson-resources/
