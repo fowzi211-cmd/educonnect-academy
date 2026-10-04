@@ -59,6 +59,19 @@ a real production deployment. Items are grouped by who actually does them.
    `ShouldQueue`, so everything (mail, in-app notifications) sends inline
    during the request. Fine at this scale; revisit only if SMTP latency
    starts making admin actions feel slow.
+7. **Automatic deploys (optional)** — the server can poll GitHub every 2
+   minutes and deploy new commits on `master` by itself:
+   ```bash
+   cd /var/www/nadacenter && git pull && bash deploy/install-autodeploy.sh
+   ```
+   Each deploy runs `deploy/update.sh` and then checks `/up`. If the update
+   fails or the site is unhealthy afterwards, the server rolls back to the
+   previous commit (database migrations are *not* reverted) and will not retry
+   that commit until a newer one arrives. A deploy is skipped, and logged, if
+   the server's checkout has local edits. Log: `/var/log/nadacenter-deploy.log`.
+   Pause with `rm /etc/cron.d/nadacenter-autodeploy`; re-run the installer to
+   resume. Anything pushed to `master` goes live, so only push tested code and
+   keep the GitHub account protected (2FA).
 
 ## Still needs a human decision (not something to automate)
 
